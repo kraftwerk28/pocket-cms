@@ -1,7 +1,6 @@
 package com.kraftwerk28.pocketcms.recyclerview
 
 import android.graphics.Paint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

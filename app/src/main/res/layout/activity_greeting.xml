@@ -7,7 +7,7 @@
 
         <variable
             name="user"
-            type="com.kraftwerk28.pocketcms.GreetingActivity.User" />
+            type="com.kraftwerk28.pocketcms.playground.GreetingActivity.User" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

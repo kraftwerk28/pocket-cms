@@ -1,6 +1,5 @@
 package com.kraftwerk28.pocketcms
 
-import android.app.ApplicationErrorReport
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
@@ -13,18 +12,12 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.KeyEvent
-import android.view.View
-import android.widget.EditText
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
+import com.kraftwerk28.pocketcms.playground.GreetingActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import java.security.KeyStore
-import java.util.concurrent.locks.Lock
 
 class MainActivity : AppCompatActivity() {
 

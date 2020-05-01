@@ -7,13 +7,13 @@
 
         <variable
             name="gameState"
-            type="com.kraftwerk28.pocketcms.GameState" />
+            type="com.kraftwerk28.pocketcms.playground.GameState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".CookieActivity">
+        tools:context=".playground.CookieActivity">
 
         <ImageView
             android:id="@+id/shreckly"

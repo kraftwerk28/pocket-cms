@@ -1,15 +1,16 @@
 package com.kraftwerk28.pocketcms.recyclerview
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class ListViewModel : ViewModel() {
-    data class ToDoTask(val description: String, var done: Boolean)
+    data class ToDoTask(val description: String, val done: Boolean)
 
     val label = MutableLiveData<String>()
+
     val _taskList: MutableList<ToDoTask> = mutableListOf()
     val taskList = MutableLiveData<MutableList<ToDoTask>>()
+
     val taskCount
         get() = taskList.value?.size ?: 0
 
@@ -29,8 +30,7 @@ class ListViewModel : ViewModel() {
 
     fun toggleTask(position: Int) {
         val t = _taskList.get(position)
-        t.done = !t.done
-        _taskList.set(position, t)
+        _taskList.set(position, t.copy(done = !t.done))
         taskList.value = _taskList
     }
 }
