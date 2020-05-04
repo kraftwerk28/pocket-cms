@@ -1,19 +1,54 @@
 package com.kraftwerk28.pocketcms
 
+import android.util.Log
+import kotlinx.coroutines.*
 import java.sql.Connection
 import org.postgresql.Driver
-import java.sql.DriverManager
-import java.sql.ResultSet
+import java.sql.*
 
-fun ResultSet.toMap(): Map<String, Any> = (0 until metaData.columnCount)
+fun ResultSet.toMaps(): List<Map<String, Any?>> {
+    val res = mutableListOf<Map<String, Any?>>()
+    while (next()) {
+        res.add(
+            (1..metaData.columnCount).fold(mutableMapOf())
+            { acc, i ->
+                acc.set(metaData.getColumnName(i), getObject(i))
+                acc
+            }
+        )
+    }
+    return res
+}
+
+fun ResultSet.toLists(): List<List<Any?>> {
+    val res = mutableListOf<List<Any?>>()
+    while (next()) {
+        res.add(
+            (1..metaData.columnCount).fold(mutableListOf())
+            { acc, i ->
+                acc.add(getObject(i))
+                acc
+            }
+        )
+    }
+    return res
+}
+
+fun ResultSet.toMap(): Map<String, Any> = (1..metaData.columnCount)
     .fold(mutableMapOf())
     { acc, c ->
-        acc.set(this.metaData.getColumnName(c), this.getObject(c))
+        next()
+        acc.set(metaData.getColumnName(c), getObject(c))
         acc
     }
 
-fun ResultSet.toList(): List<Any> = (0 until metaData.columnCount)
-    .fold(mutableListOf()) { acc, c -> acc.add(getObject(c)); acc }
+fun ResultSet.toList(): List<Any> = (1..metaData.columnCount)
+    .fold(mutableListOf())
+    { acc, c ->
+        next()
+        acc.add(getObject(c))
+        acc
+    }
 
 class Database {
 
@@ -21,52 +56,76 @@ class Database {
         val host: String,
         val port: Int,
         val username: String?,
-        val password: String,
+        val password: String?,
         val dbName: String
-    ) {
-        val connString: String
-            get() = "jdbc:postgresql://$host:$port/$dbName" +
-                    "?username=$username&password=$password"
-    }
+    )
 
     lateinit var connection: Connection
 
     init {
         val driver = Driver()
         DriverManager.registerDriver(driver)
-    }
-
-    private fun prepareQueryList(query: String, l: List<Any> = listOf()) =
-        l.foldIndexed(query)
-        { i, acc, c -> acc.replace("$${i + 1}", c.toString()) }
-
-    private fun prepareQueryList(
-        query: String,
-        map: Map<String, Any> = mutableMapOf()
-    ) =
-        map.entries.fold(query)
-        { acc, c -> acc.replace("$${c.key}", c.value.toString()) }
-
-    fun connect(creds: Credentials): Connection {
-        connection = DriverManager.getConnection(creds.connString)
-        return connection
-    }
-
-    fun query(statement: String, values: List<Any>): ResultSet {
-        val prepared = prepareQueryList(statement, values)
-        return connection.createStatement().executeQuery(prepared)
-    }
-
-    fun query(statement: String, values: Map<String, Any>): ResultSet {
-        val prepared = prepareQueryList(statement, values)
-        return connection.createStatement().executeQuery(prepared)
-    }
-
-    fun disconnect() {
-        connection.close()
+        Log.i("DatabaseMgr", "Driver registered")
     }
 
     companion object {
+        private fun prepareQueryList(query: String, l: List<Any> = listOf()) =
+            l.foldIndexed(query)
+            { i, acc, c -> acc.replace("$${i + 1}", c.toString()) }
+
+        private fun prepareQueryList(
+            query: String,
+            map: Map<String, Any> = mutableMapOf()
+        ) =
+            map.entries.fold(query)
+            { acc, c -> acc.replace("$${c.key}", c.value.toString()) }
+
+        fun connect(creds: Credentials): Deferred<Connection?> =
+            GlobalScope.async(Dispatchers.IO) {
+                val connString =
+                    "jdbc:postgresql://${creds.host}:${creds.port}/${creds.dbName}"
+                try {
+                    val connection = DriverManager.getConnection(
+                        connString,
+                        creds.username,
+                        creds.password
+                    )
+                    instance.connection = connection
+                    connection
+
+                } catch (e: SQLException) {
+                    null
+                }
+            }
+
+        fun query(statement: String): Deferred<ResultSet> =
+            GlobalScope.async(Dispatchers.IO) {
+                instance.connection
+                    .createStatement()
+                    .executeQuery(statement)
+            }
+
+        fun query(statement: String, values: List<Any>): Deferred<ResultSet> {
+            val prepared = prepareQueryList(statement, values)
+            return GlobalScope.async {
+                instance.connection.createStatement().executeQuery(prepared)
+            }
+        }
+
+        fun query(
+            statement: String,
+            values: Map<String, Any>
+        ): Deferred<ResultSet> {
+            val prepared = prepareQueryList(statement, values)
+            return GlobalScope.async {
+                instance.connection.createStatement().executeQuery(prepared)
+            }
+        }
+
+        fun disconnect() {
+            instance.connection.close()
+        }
+
         val instance = Database()
     }
 }

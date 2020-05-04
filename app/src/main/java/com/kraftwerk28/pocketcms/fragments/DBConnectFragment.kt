@@ -10,52 +10,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.os.persistableBundleOf
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.*
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import com.kraftwerk28.pocketcms.Database
 import com.kraftwerk28.pocketcms.R
 import com.kraftwerk28.pocketcms.databinding.FragmentDbconnectBinding
+import com.kraftwerk28.pocketcms.viewmodels.ConnectCredentials
+import kotlinx.coroutines.runBlocking
 
 class DBConnectFragment : Fragment() {
 
     private lateinit var binding: FragmentDbconnectBinding
     private lateinit var viewModel: ConnectCredentials
     private val TAG = "DBConnectFragment"
-
-    class ConnectCredentials(
-        _host: String,
-        _port: Int,
-        _username: String,
-        _password: String,
-        _dbName: String
-    ) : ViewModel() {
-
-        val host = MutableLiveData<String>(_host)
-
-        val port = MutableLiveData<Int>(_port)
-
-        val username = MutableLiveData<String>(_username)
-
-        val password = MutableLiveData<String>(_password)
-
-        val dbName = MutableLiveData<String>(_dbName)
-
-        val connString = MediatorLiveData<String>()
-
-        init {
-            val cb = Observer<Any> {
-                connString.value =
-                    "postgresql://${host.value}:${port.value}/${dbName.value}"
-            }
-            connString.run {
-                addSource(host, cb)
-                addSource(port, cb)
-                addSource(dbName, cb)
-            }
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,7 +34,7 @@ class DBConnectFragment : Fragment() {
             savedInstanceState?.getString("host") ?: "10.0.2.2",
             savedInstanceState?.getInt("port") ?: 5432,
             savedInstanceState?.getString("username") ?: "kraftwerk28",
-            savedInstanceState?.getString("password") ?: "",
+            savedInstanceState?.getString("password") ?: "271828",
             savedInstanceState?.getString("dbName") ?: "postgres"
         )
         binding = DataBindingUtil.inflate(
@@ -78,15 +46,24 @@ class DBConnectFragment : Fragment() {
         binding.setLifecycleOwner(this)
         binding.credentials = viewModel
 
-        binding.connectButton.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                if (!validate()) {
-                    Log.i(TAG, "Validated successfully")
-                    return
-                }
-                findNavController().navigate(R.id.action_DBConnectFragment2_to_DBViewFragment)
+        binding.connectButton.setOnClickListener {
+            val connected = performConnection()
+            if (connected) {
+                findNavController().navigate(
+                    R.id.action_DBConnectFragment2_to_DBTablesViewFragment
+                )
             }
-        })
+        }
+        binding.dbSelectButton.setOnClickListener {
+            val connected = performConnection()
+            val bundle = bundleOf("creds" to createCredentials())
+            if (connected) {
+                findNavController().navigate(
+                    R.id.action_DBConnectFragment2_to_DBViewFragment,
+                    bundle
+                )
+            }
+        }
 
         binding.connectionTitle.setOnClickListener {
             copyToClipboard(binding.connectionTitle.text.toString())
@@ -100,11 +77,7 @@ class DBConnectFragment : Fragment() {
             activity?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clipData = ClipData.newPlainText("connection_string", text)
         clipboard.setPrimaryClip(clipData)
-        Toast.makeText(
-            this@DBConnectFragment.activity,
-            "Copied to clipboard",
-            Toast.LENGTH_SHORT
-        ).show()
+        showToast("Copied to clipboard")
     }
 
     fun validate(): Boolean {
@@ -120,8 +93,26 @@ class DBConnectFragment : Fragment() {
         return correct
     }
 
-    fun performConnection() {
+    fun performConnection(): Boolean {
+        if (!validate()) {
+            Log.i(TAG, "Failed to validate")
+            return false
+        }
+        val r = runBlocking {
+            Database.connect(createCredentials()).await()
+        }
+        return r?.let {
+            true
+        } ?: run {
+            showToast("DB connection error")
+            false
+        }
+    }
 
+    fun showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
+        Toast
+            .makeText(activity, message, duration)
+            .show()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -134,4 +125,12 @@ class DBConnectFragment : Fragment() {
             putString("dbName", viewModel.dbName.value)
         }
     }
+
+    fun createCredentials() = Database.Credentials(
+        viewModel.host.value!!,
+        viewModel.port.value!!,
+        viewModel.username.value!!,
+        viewModel.password.value!!,
+        viewModel.dbName.value!!
+    )
 }

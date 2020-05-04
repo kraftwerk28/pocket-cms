@@ -7,26 +7,41 @@
 
         <variable
             name="credentials"
-            type="com.kraftwerk28.pocketcms.fragments.DBConnectFragment.ConnectCredentials" />
+            type="com.kraftwerk28.pocketcms.viewmodels.ConnectCredentials" />
 
         <import type="com.kraftwerk28.pocketcms.playground.Converter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="128dp">
+        android:layout_height="match_parent">
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:title="Connect to database"
+                app:titleTextColor="@color/icons" />
+
+        </com.google.android.material.appbar.AppBarLayout>
 
         <TextView
             android:id="@+id/connectionTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="128dp"
             android:clickable="true"
             android:focusable="true"
             android:text="@{credentials.connString}"
-            android:textAlignment="center"
 
+            android:textAlignment="center"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -125,6 +140,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:hint="database name"
+            android:visibility="visible"
+            app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/passwordInput">
@@ -134,6 +151,7 @@
                 android:layout_height="match_parent"
                 android:inputType="textPersonName"
                 android:text="@={credentials.dbName}" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
@@ -141,13 +159,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
+            android:enabled="@{credentials.dbName.trim().length() > 0}"
             android:paddingStart="64dp"
             android:paddingEnd="64dp"
             android:text="Connect"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dbNameInput" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/dbSelectButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:paddingStart="64dp"
+            android:paddingEnd="64dp"
+            android:text="Choose database"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/connectButton" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
