@@ -16,8 +16,8 @@ Application data is stored on remote server including configs, secrets, analytic
 A PostgreSQL instance is deployed on DigitalOcean droplet and is accessible through authentification for testing and production.
 
 ## Checklist
-- [ ] dislpaying databases list / creating database
-- [ ] displaying/modifying database tables (`information_schema.tables`)
+- [x] dislpaying databases list / creating database (partially)
+- [x] displaying/modifying database tables (`information_schema.tables`) (partially)
 - [ ] displaying/modifying table comumn types (`information_schema.columns`)
 - [ ] displaying/modifying data from table
 - [ ] auth through fingerprint API
