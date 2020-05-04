@@ -26,13 +26,25 @@
     <fragment
         android:id="@+id/DBViewFragment"
         android:name="com.kraftwerk28.pocketcms.fragments.DBViewFragment"
-        android:label="DBViewFragment" >
+        android:label="DBViewFragment">
         <action
             android:id="@+id/action_DBViewFragment_to_DBTablesViewFragment"
-            app:destination="@id/DBTablesViewFragment" />
+            app:destination="@id/DBTablesViewFragment"
+            app:enterAnim="@anim/anim_slide_left"
+            app:exitAnim="@anim/anim_scale_out"
+            app:popEnterAnim="@anim/anim_scale_in"
+            app:popExitAnim="@anim/anim_slide_right" />
     </fragment>
     <fragment
         android:id="@+id/DBTablesViewFragment"
         android:name="com.kraftwerk28.pocketcms.fragments.DBTablesViewFragment"
-        android:label="DBTablesViewFragment" />
+        android:label="DBTablesViewFragment" >
+        <action
+            android:id="@+id/action_DBTablesViewFragment_to_DBConnectFragment2"
+            app:destination="@id/DBConnectFragment2"
+            app:enterAnim="@anim/anim_scale_in"
+            app:exitAnim="@anim/anim_slide_right"
+            app:popEnterAnim="@anim/anim_slide_left"
+            app:popExitAnim="@anim/anim_scale_out" />
+    </fragment>
 </navigation>

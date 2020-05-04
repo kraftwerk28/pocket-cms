@@ -34,22 +34,6 @@ fun ResultSet.toLists(): List<List<Any?>> {
     return res
 }
 
-fun ResultSet.toMap(): Map<String, Any> = (1..metaData.columnCount)
-    .fold(mutableMapOf())
-    { acc, c ->
-        next()
-        acc.set(metaData.getColumnName(c), getObject(c))
-        acc
-    }
-
-fun ResultSet.toList(): List<Any> = (1..metaData.columnCount)
-    .fold(mutableListOf())
-    { acc, c ->
-        next()
-        acc.add(getObject(c))
-        acc
-    }
-
 class Database {
 
     data class Credentials(
@@ -60,7 +44,7 @@ class Database {
         val dbName: String
     )
 
-    lateinit var connection: Connection
+    var connection: Connection? = null
 
     init {
         val driver = Driver()
@@ -69,6 +53,7 @@ class Database {
     }
 
     companion object {
+        var credentials: Credentials? = null
         private fun prepareQueryList(query: String, l: List<Any> = listOf()) =
             l.foldIndexed(query)
             { i, acc, c -> acc.replace("$${i + 1}", c.toString()) }
@@ -80,10 +65,17 @@ class Database {
             map.entries.fold(query)
             { acc, c -> acc.replace("$${c.key}", c.value.toString()) }
 
-        fun connect(creds: Credentials): Deferred<Connection?> =
+        fun connect(): Deferred<Connection?> =
             GlobalScope.async(Dispatchers.IO) {
-                val connString =
-                    "jdbc:postgresql://${creds.host}:${creds.port}/${creds.dbName}"
+                instance.connection?.run {
+                    if (!isClosed) close()
+                }
+                val creds = this@Companion.credentials
+
+                if (creds == null) throw SQLException("Empty credentials.")
+                val connString = creds.run {
+                    "jdbc:postgresql://${host}:${port}/${dbName}"
+                }
                 try {
                     val connection = DriverManager.getConnection(
                         connString,
@@ -100,15 +92,20 @@ class Database {
 
         fun query(statement: String): Deferred<ResultSet> =
             GlobalScope.async(Dispatchers.IO) {
-                instance.connection
+                instance.connection!!
                     .createStatement()
                     .executeQuery(statement)
             }
 
-        fun query(statement: String, values: List<Any>): Deferred<ResultSet> {
+        fun query(
+            statement: String,
+            values: List<Any>
+        ): Deferred<ResultSet> {
             val prepared = prepareQueryList(statement, values)
             return GlobalScope.async {
-                instance.connection.createStatement().executeQuery(prepared)
+                instance.connection!!
+                    .createStatement()
+                    .executeQuery(prepared)
             }
         }
 
@@ -118,12 +115,14 @@ class Database {
         ): Deferred<ResultSet> {
             val prepared = prepareQueryList(statement, values)
             return GlobalScope.async {
-                instance.connection.createStatement().executeQuery(prepared)
+                instance.connection!!
+                    .createStatement()
+                    .executeQuery(prepared)
             }
         }
 
         fun disconnect() {
-            instance.connection.close()
+            instance.connection!!.close()
         }
 
         val instance = Database()

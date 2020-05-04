@@ -16,30 +16,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dce5843f-06e5-489d-9b7e-50cf22371b04" name="Default Changelist" comment="Add database connect fragment&#10;Add database list fragment&#10;Reorganize project structure">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/adapters/DBTablesAdapter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/fragments/DBTablesViewFragment.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/viewmodels/ConnectCredentials.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/viewmodels/DBTablesViewModel.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/viewmodels/DBViewModel.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/anim/anim_scale_in.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/anim/anim_scale_out.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_dbtables_view.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_table.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/navEditor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/navEditor.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/DBViewActivity.kt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/Database.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/Database.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/activities/LogoActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/activities/LogoActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/adapters/DBListAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/adapters/DBListAdapter.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/fragments/DBConnectFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/fragments/DBConnectFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/fragments/DBTablesViewFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/fragments/DBTablesViewFragment.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/fragments/DBViewFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/fragments/DBViewFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/anim/anim_slide_left.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/anim/anim_slide_left.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/anim/anim_slide_right.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/anim/anim_slide_right.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_dbview.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_dbconnect.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_dbconnect.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_dbview.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_dbview.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/navigation/navigation_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/navigation/navigation_main.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -101,10 +84,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/fragments/DBConnectFragment.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="291">
-              <caret line="58" column="30" selection-start-line="58" selection-start-column="30" selection-end-line="58" selection-end-column="30" />
+            <state relative-caret-position="311">
+              <caret line="88" column="47" selection-start-line="88" selection-start-column="47" selection-end-line="88" selection-end-column="47" />
               <folding>
-                <element signature="e#3484#3839#0" />
+                <element signature="e#1057#2231#0" />
               </folding>
             </state>
           </provider>
@@ -113,19 +96,33 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/fragments/DBViewFragment.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="23" column="37" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="37" />
+            <state relative-caret-position="351">
+              <caret line="41" column="94" selection-start-line="41" selection-start-column="94" selection-end-line="41" selection-end-column="94" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/adapters/DBListAdapter.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
-              <caret line="20" column="32" selection-start-line="20" selection-start-column="32" selection-end-line="20" selection-end-column="32" />
+            <state relative-caret-position="380">
+              <caret line="19" column="32" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
               <folding>
                 <element signature="e#44#340#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/Database.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="31">
+              <caret line="89" column="16" selection-start-line="89" selection-start-column="16" selection-end-line="89" selection-end-column="16" />
+              <folding>
+                <element signature="e#35#160#0" expanded="true" />
+                <element signature="e#210#513#0" />
+                <element signature="e#557#827#0" />
               </folding>
             </state>
           </provider>
@@ -135,7 +132,7 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_dbconnect.xml">
           <provider selected="true" editor-type-id="android-designer2" />
           <provider editor-type-id="text-editor">
-            <state relative-caret-position="421">
+            <state relative-caret-position="2860">
               <caret line="143" column="33" selection-start-line="143" selection-start-column="33" selection-end-line="143" selection-end-column="33" />
             </state>
           </provider>
@@ -145,7 +142,7 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_dbview.xml">
           <provider editor-type-id="android-designer2" />
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1">
+            <state relative-caret-position="20">
               <caret line="16" column="46" selection-start-line="16" selection-start-column="46" selection-end-line="16" selection-end-column="46" />
             </state>
           </provider>
@@ -155,17 +152,17 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/res/navigation/navigation_main.xml">
           <provider editor-type-id="nav-designer" />
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="10" column="8" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
+            <state relative-caret-position="421">
+              <caret line="32" column="48" selection-start-line="32" selection-start-column="48" selection-end-line="32" selection-end-column="48" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/fragments/DBTablesViewFragment.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="491">
-              <caret line="49" column="36" selection-start-line="49" selection-start-column="36" selection-end-line="49" selection-end-column="36" />
+            <state relative-caret-position="460">
+              <caret line="40" column="94" selection-start-line="40" selection-start-column="94" selection-end-line="40" selection-end-column="94" />
             </state>
           </provider>
         </entry>
@@ -181,25 +178,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/adapters/DBTablesAdapter.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="24" column="17" selection-start-line="24" selection-start-column="17" selection-end-line="24" selection-end-column="17" />
-              <folding>
-                <element signature="e#44#281#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/viewmodels/DBTablesViewModel.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="440">
+            <state relative-caret-position="280">
               <caret line="22" column="61" selection-start-line="22" selection-start-column="61" selection-end-line="22" selection-end-column="61" />
-              <folding>
-                <element signature="e#46#333#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -259,23 +241,23 @@
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/viewmodels/ConnectCredentials.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/adapters/DBListAdapter.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/viewmodels/DBViewModel.kt" />
         <option value="$PROJECT_DIR$/app/src/main/res/anim/anim_slide_right.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/anim/anim_slide_left.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/anim/anim_scale_in.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/anim/anim_scale_out.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/item_table.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/Database.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/adapters/DBTablesAdapter.kt" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_dbtables_view.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/fragments/DBTablesViewFragment.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/viewmodels/DBTablesViewModel.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/res/navigation/navigation_main.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_dbconnect.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_dbview.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/fragments/DBConnectFragment.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/adapters/DBListAdapter.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/fragments/DBViewFragment.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/fragments/DBConnectFragment.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/Database.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/res/navigation/navigation_main.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/fragments/DBTablesViewFragment.kt" />
       </list>
     </option>
   </component>
@@ -290,6 +272,17 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="PocketCMS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PocketCMS" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
@@ -314,55 +307,7 @@
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="pocketcms" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="adapters" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PocketCMS" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="pocketcms" type="cbb59c9e:AndroidPsiDirectoryNode" />
               <item name="fragments" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PocketCMS" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="pocketcms" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="viewmodels" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PocketCMS" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-            </path>
-            <path>
-              <item name="PocketCMS" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-              <item name="layout" type="ddeffd01:AndroidResFolderTypeNode" />
-            </path>
-            <path>
-              <item name="PocketCMS" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-              <item name="navigation" type="ddeffd01:AndroidResFolderTypeNode" />
-            </path>
-            <path>
-              <item name="PocketCMS" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-              <item name="values" type="ddeffd01:AndroidResFolderTypeNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="PocketCMS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PocketCMS" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -521,7 +466,7 @@
       <window_info id="Resources Explorer" order="8" sideWeight="0.49834985" weight="0.20211081" />
       <window_info id="Device File Explorer" order="9" show_stripe_button="false" sideWeight="0.49944994" weight="0.3298153" />
       <window_info anchor="bottom" id="Run" order="0" sideWeight="0.49786097" weight="0.32453245" />
-      <window_info anchor="bottom" id="Logcat" order="1" weight="0.18921892" />
+      <window_info anchor="bottom" id="Logcat" order="1" weight="0.49944994" />
       <window_info anchor="bottom" id="TODO" order="2" weight="0.32893288" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49946523" weight="0.32932165" />
       <window_info anchor="bottom" id="Terminal" order="4" weight="0.32932165" />
@@ -675,7 +620,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="400">
           <caret line="23" column="44" selection-start-line="23" selection-start-column="44" selection-end-line="23" selection-end-column="44" />
@@ -684,6 +628,7 @@
           </folding>
         </state>
       </provider>
+      <provider editor-type-id="android-manifest" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/activities/DBActivity.kt">
       <provider selected="true" editor-type-id="text-editor">
@@ -857,19 +802,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/Database.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="23" column="36" selection-start-line="23" selection-start-column="36" selection-end-line="23" selection-end-column="36" />
-          <folding>
-            <element signature="e#35#160#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/adapters/DBTablesAdapter.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
+        <state relative-caret-position="400">
           <caret line="24" column="17" selection-start-line="24" selection-start-column="17" selection-end-line="24" selection-end-column="17" />
           <folding>
             <element signature="e#44#281#0" expanded="true" />
@@ -879,11 +814,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/viewmodels/DBTablesViewModel.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
+        <state relative-caret-position="280">
           <caret line="22" column="61" selection-start-line="22" selection-start-column="61" selection-end-line="22" selection-end-column="61" />
-          <folding>
-            <element signature="e#46#333#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -895,28 +827,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/navigation/navigation_main.xml">
-      <provider editor-type-id="nav-designer" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="10" column="8" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/fragments/DBConnectFragment.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="58" column="30" selection-start-line="58" selection-start-column="30" selection-end-line="58" selection-end-column="30" />
-          <folding>
-            <element signature="e#3484#3839#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_dbconnect.xml">
       <provider selected="true" editor-type-id="android-designer2" />
       <provider editor-type-id="text-editor">
-        <state relative-caret-position="421">
+        <state relative-caret-position="2860">
           <caret line="143" column="33" selection-start-line="143" selection-start-column="33" selection-end-line="143" selection-end-column="33" />
         </state>
       </provider>
@@ -924,32 +838,62 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_dbview.xml">
       <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1">
+        <state relative-caret-position="20">
           <caret line="16" column="46" selection-start-line="16" selection-start-column="46" selection-end-line="16" selection-end-column="46" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/fragments/DBTablesViewFragment.kt">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/Database.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="491">
-          <caret line="49" column="36" selection-start-line="49" selection-start-column="36" selection-end-line="49" selection-end-column="36" />
+        <state relative-caret-position="31">
+          <caret line="89" column="16" selection-start-line="89" selection-start-column="16" selection-end-line="89" selection-end-column="16" />
+          <folding>
+            <element signature="e#35#160#0" expanded="true" />
+            <element signature="e#210#513#0" />
+            <element signature="e#557#827#0" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/fragments/DBViewFragment.kt">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/navigation/navigation_main.xml">
+      <provider editor-type-id="nav-designer" />
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="23" column="37" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="37" />
+        <state relative-caret-position="421">
+          <caret line="32" column="48" selection-start-line="32" selection-start-column="48" selection-end-line="32" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/fragments/DBConnectFragment.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="311">
+          <caret line="88" column="47" selection-start-line="88" selection-start-column="47" selection-end-line="88" selection-end-column="47" />
+          <folding>
+            <element signature="e#1057#2231#0" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/adapters/DBListAdapter.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="20" column="32" selection-start-line="20" selection-start-column="32" selection-end-line="20" selection-end-column="32" />
+        <state relative-caret-position="380">
+          <caret line="19" column="32" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
           <folding>
             <element signature="e#44#340#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/fragments/DBViewFragment.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="351">
+          <caret line="41" column="94" selection-start-line="41" selection-start-column="94" selection-end-line="41" selection-end-column="94" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/fragments/DBTablesViewFragment.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="460">
+          <caret line="40" column="94" selection-start-line="40" selection-start-column="94" selection-end-line="40" selection-end-column="94" />
         </state>
       </provider>
     </entry>

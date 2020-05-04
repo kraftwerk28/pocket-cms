@@ -17,7 +17,7 @@ import com.kraftwerk28.pocketcms.Database
 import com.kraftwerk28.pocketcms.R
 import com.kraftwerk28.pocketcms.databinding.FragmentDbconnectBinding
 import com.kraftwerk28.pocketcms.viewmodels.ConnectCredentials
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 
 class DBConnectFragment : Fragment() {
 
@@ -47,22 +47,10 @@ class DBConnectFragment : Fragment() {
         binding.credentials = viewModel
 
         binding.connectButton.setOnClickListener {
-            val connected = performConnection()
-            if (connected) {
-                findNavController().navigate(
-                    R.id.action_DBConnectFragment2_to_DBTablesViewFragment
-                )
-            }
+            goToTableView()
         }
         binding.dbSelectButton.setOnClickListener {
-            val connected = performConnection()
-            val bundle = bundleOf("creds" to createCredentials())
-            if (connected) {
-                findNavController().navigate(
-                    R.id.action_DBConnectFragment2_to_DBViewFragment,
-                    bundle
-                )
-            }
+            goToDBView()
         }
 
         binding.connectionTitle.setOnClickListener {
@@ -93,19 +81,41 @@ class DBConnectFragment : Fragment() {
         return correct
     }
 
-    fun performConnection(): Boolean {
+    suspend fun performConnection(): Boolean {
         if (!validate()) {
             Log.i(TAG, "Failed to validate")
             return false
         }
-        val r = runBlocking {
-            Database.connect(createCredentials()).await()
-        }
+        Database.credentials = createCredentials()
+        val r = Database.connect().await()
         return r?.let {
             true
         } ?: run {
             showToast("DB connection error")
             false
+        }
+    }
+
+    fun goToTableView() {
+        GlobalScope.launch(Dispatchers.IO) {
+            val connected = performConnection()
+            if (connected) {
+                findNavController().navigate(
+                    R.id.action_DBConnectFragment2_to_DBTablesViewFragment
+                )
+            }
+        }
+    }
+
+    fun goToDBView() {
+        GlobalScope.launch(Dispatchers.IO) {
+            val connected = performConnection()
+            if (connected) {
+                findNavController().navigate(
+                    R.id.action_DBConnectFragment2_to_DBViewFragment
+                )
+            }
+
         }
     }
 

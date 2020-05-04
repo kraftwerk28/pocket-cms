@@ -65,8 +65,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-853" />
-                            <option name="y" value="-93" />
+                            <option name="x" value="-812" />
+                            <option name="y" value="-293" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -91,9 +91,18 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-543" />
-                            <option name="y" value="-224" />
+                            <option name="x" value="-503" />
+                            <option name="y" value="9" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_DBTablesViewFragment_to_DBConnectFragment2">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -103,8 +112,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-624" />
-                            <option name="y" value="189" />
+                            <option name="x" value="-758" />
+                            <option name="y" value="268" />
                           </Point>
                         </option>
                         <option name="myPositions">

@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.kraftwerk28.pocketcms.R
 import com.kraftwerk28.pocketcms.adapters.DBTablesAdapter
@@ -35,6 +37,9 @@ class DBTablesViewFragment : Fragment() {
         binding.setLifecycleOwner(this)
         viewModel = DBTablesViewModel()
         binding.viewModel = viewModel
+        requireActivity().onBackPressedDispatcher.addCallback {
+            findNavController().navigate(R.id.action_DBTablesViewFragment_to_DBConnectFragment2)
+        }
 
         val inflated = inflater.inflate(
             R.layout.fragment_dbtables_view,

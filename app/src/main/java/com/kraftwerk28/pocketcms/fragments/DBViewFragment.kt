@@ -9,15 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.findNavController
 import com.kraftwerk28.pocketcms.Database
 import com.kraftwerk28.pocketcms.R
 import com.kraftwerk28.pocketcms.adapters.DBListAdapter
 import com.kraftwerk28.pocketcms.viewmodels.DBViewModel
 import kotlinx.android.synthetic.main.fragment_dbview.view.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO_PARALLELISM_PROPERTY_NAME
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class DBViewFragment : Fragment() {
 
@@ -37,8 +35,13 @@ class DBViewFragment : Fragment() {
         viewModel = DBViewModel()
 
         activity?.actionBar?.title = "Databases"
-        adapter = DBListAdapter(this)
-        val creds = arguments?.getSerializable("creds") as Database.Credentials
+        adapter = DBListAdapter(onDBItemClick = {
+            GlobalScope.launch(Dispatchers.IO) {
+                Database.credentials = Database.credentials?.copy(dbName = it)
+                Database.connect().await()
+                findNavController().navigate(R.id.action_DBViewFragment_to_DBTablesViewFragment)
+            }
+        })
         inflated.run {
             dbListView.adapter = adapter
             refreshLayout.setOnRefreshListener {
