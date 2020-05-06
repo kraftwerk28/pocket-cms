@@ -5,7 +5,7 @@ A frontend for SQL (maybe NoSQL in future) DBMS, similar to [Data editor](https:
 
 
 ## Libraries & technologies
-- [Exposed](https://github.com/JetBrains/Exposed) - SQL driver
+- [PostgreSQL JDBC driver](https://jdbc.postgresql.org/) - SQL driver
 
 
 ## Purpose
@@ -16,10 +16,10 @@ Application data is stored on remote server including configs, secrets, analytic
 A PostgreSQL instance is deployed on DigitalOcean droplet and is accessible through authentification for testing and production.
 
 ## Checklist
-- [x] dislpaying databases list / creating database (partially)
+- [x] dislpaying databases list / creating database
 - [x] displaying/modifying database tables (`information_schema.tables`) (partially)
 - [ ] displaying/modifying table comumn types (`information_schema.columns`)
 - [ ] displaying/modifying data from table
-- [ ] auth through fingerprint API
+- [x] auth through fingerprint API
 - [ ] tests
 - [ ] ...
