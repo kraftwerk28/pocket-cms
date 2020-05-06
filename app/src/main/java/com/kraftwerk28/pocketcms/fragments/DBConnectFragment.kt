@@ -9,8 +9,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.kraftwerk28.pocketcms.Database
@@ -25,11 +27,8 @@ class DBConnectFragment : Fragment() {
     private lateinit var viewModel: ConnectCredentials
     private val TAG = "DBConnectFragment"
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         viewModel = ConnectCredentials(
             savedInstanceState?.getString("host") ?: "10.0.2.2",
             savedInstanceState?.getInt("port") ?: 5432,
@@ -37,35 +36,60 @@ class DBConnectFragment : Fragment() {
             savedInstanceState?.getString("password") ?: "271828",
             savedInstanceState?.getString("dbName") ?: "postgres"
         )
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_dbconnect,
             container,
             false
         )
-        binding.setLifecycleOwner(this)
-        binding.credentials = viewModel
+        binding.run {
+            setLifecycleOwner(this@DBConnectFragment)
+            credentials = viewModel
+            connectButton.setOnClickListener {
+                hideKeyboard()
+                goToTableView()
+            }
+            dbSelectButton.setOnClickListener {
+                hideKeyboard()
+                goToDBView()
+            }
+            connectionTitle.setOnClickListener {
+                copyToClipboard(binding.connectionTitle.text.toString())
+            }
+            restoreChooseVariants(hostAutoCompleteTextView)
+            restoreChooseVariants(dbNameInputAutoComplete)
+        }
 
-        binding.connectButton.setOnClickListener {
-            goToTableView()
-        }
-        binding.dbSelectButton.setOnClickListener {
-            goToDBView()
-        }
-
-        binding.connectionTitle.setOnClickListener {
-            copyToClipboard(binding.connectionTitle.text.toString())
-        }
+        val prefs = activity?.getPreferences(Context.MODE_PRIVATE)
+        Log.i("Prefs", prefs?.all.toString())
+//        findNavController().navigate(R.id.action_tmp_toTableView)
 
         return binding.root
     }
 
-    fun copyToClipboard(text: String) {
+    private fun copyToClipboard(text: String) {
         val clipboard =
             activity?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clipData = ClipData.newPlainText("connection_string", text)
         clipboard.setPrimaryClip(clipData)
         showToast("Copied to clipboard")
+    }
+
+    private fun hideKeyboard() {
+        requireActivity().run {
+            val imm =
+                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            currentFocus?.let {
+                imm.hideSoftInputFromWindow(it.windowToken, 0)
+            }
+        }
     }
 
     fun validate(): Boolean {
@@ -81,25 +105,38 @@ class DBConnectFragment : Fragment() {
         return correct
     }
 
-    suspend fun performConnection(): Boolean {
+    private suspend fun performConnection(): Boolean {
+
         if (!validate()) {
             Log.i(TAG, "Failed to validate")
             return false
         }
-        Database.credentials = createCredentials()
+        val credentials = createCredentials()
+        Database.credentials = credentials
         val r = Database.connect().await()
-        return r?.let {
-            true
-        } ?: run {
-            showToast("DB connection error")
-            false
+        return withContext(Dispatchers.Main) {
+            r?.let {
+                saveChooseVariants(
+                    binding.dbNameInputAutoComplete,
+                    credentials.dbName
+                )
+                saveChooseVariants(
+                    binding.hostAutoCompleteTextView,
+                    credentials.host
+                )
+                true
+            } ?: run {
+                showToast("DB connection error")
+                false
+            }
         }
     }
 
-    fun goToTableView() {
+    private fun goToTableView() {
         GlobalScope.launch(Dispatchers.IO) {
             val connected = performConnection()
-            if (connected) {
+            if (!connected) return@launch
+            withContext(Dispatchers.Main) {
                 findNavController().navigate(
                     R.id.action_DBConnectFragment2_to_DBTablesViewFragment
                 )
@@ -107,40 +144,63 @@ class DBConnectFragment : Fragment() {
         }
     }
 
-    fun goToDBView() {
+    private fun goToDBView() {
         GlobalScope.launch(Dispatchers.IO) {
             val connected = performConnection()
-            if (connected) {
+            if (!connected) return@launch
+            withContext(Dispatchers.Main) {
                 findNavController().navigate(
                     R.id.action_DBConnectFragment2_to_DBViewFragment
                 )
             }
-
         }
     }
 
-    fun showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
+    private fun showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
         Toast
             .makeText(activity, message, duration)
             .show()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.run {
-            putString("host", viewModel.host.value)
-            putInt("port", viewModel.port.value!!)
-            putString("host", viewModel.username.value)
-            putString("host", viewModel.password.value)
-            putString("dbName", viewModel.dbName.value)
+    private fun saveChooseVariants(actv: AutoCompleteTextView, value: String) {
+        // Save database name for autocompleteview
+        val prefs = activity?.getPreferences(Context.MODE_PRIVATE)
+        prefs?.run {
+            val key = "choose_variants.${actv.id}"
+            val savedDbList = getStringSet(key, mutableSetOf())!!
+            savedDbList.add(value)
+            edit().putStringSet(key, savedDbList).commit()
         }
     }
 
-    fun createCredentials() = Database.Credentials(
-        viewModel.host.value!!,
-        viewModel.port.value!!,
-        viewModel.username.value!!,
-        viewModel.password.value!!,
-        viewModel.dbName.value!!
-    )
+    private fun restoreChooseVariants(actv: AutoCompleteTextView) {
+        val prefs = activity?.getPreferences(Context.MODE_PRIVATE)
+        prefs?.run {
+            val key = "choose_variants.${actv.id}"
+            val savedList = getStringSet(key, setOf())!!
+            Log.i("Prefs", savedList.toString())
+            actv.setAdapter(
+                ArrayAdapter<String>(
+                    context!!,
+                    android.R.layout.simple_dropdown_item_1line,
+                    savedList.toList()
+                )
+            )
+        }
+    }
+
+    private fun createCredentials() = viewModel.run {
+        Database.Credentials(
+            host.value!!,
+            port.value!!,
+            username.value!!,
+            password.value!!,
+            dbName.value!!
+        )
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.i(javaClass.simpleName, "Fragment destroyed")
+    }
 }

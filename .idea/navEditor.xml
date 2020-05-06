@@ -65,8 +65,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-812" />
-                            <option name="y" value="-293" />
+                            <option name="x" value="-939" />
+                            <option name="y" value="-240" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -81,6 +81,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_tmp_toTableView">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                           </map>
                         </option>
                       </LayoutPositions>
@@ -91,13 +96,18 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-503" />
-                            <option name="y" value="9" />
+                            <option name="x" value="-518" />
+                            <option name="y" value="197" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
                             <entry key="action_DBTablesViewFragment_to_DBConnectFragment2">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_DBTablesViewFragment_to_tableViewFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -112,8 +122,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-758" />
-                            <option name="y" value="268" />
+                            <option name="x" value="-874" />
+                            <option name="y" value="272" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -124,6 +134,18 @@
                               </value>
                             </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="tableViewFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-527" />
+                            <option name="y" value="-338" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>

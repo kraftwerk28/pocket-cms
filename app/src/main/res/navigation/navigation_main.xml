@@ -22,6 +22,9 @@
             app:exitAnim="@anim/anim_scale_out"
             app:popEnterAnim="@anim/anim_scale_in"
             app:popExitAnim="@anim/anim_slide_right" />
+        <action
+            android:id="@+id/action_tmp_toTableView"
+            app:destination="@id/tableViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/DBViewFragment"
@@ -46,5 +49,12 @@
             app:exitAnim="@anim/anim_slide_right"
             app:popEnterAnim="@anim/anim_slide_left"
             app:popExitAnim="@anim/anim_scale_out" />
+        <action
+            android:id="@+id/action_DBTablesViewFragment_to_tableViewFragment"
+            app:destination="@id/tableViewFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/tableViewFragment"
+        android:name="com.kraftwerk28.pocketcms.fragments.TableViewFragment"
+        android:label="TableViewFragment" />
 </navigation>

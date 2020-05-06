@@ -34,6 +34,8 @@ fun ResultSet.toLists(): List<List<Any?>> {
     return res
 }
 
+fun ResultSet.succeed(): Boolean = next()
+
 class Database {
 
     data class Credentials(
