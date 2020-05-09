@@ -65,6 +65,7 @@
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/hostAutoCompleteTextView"
                 android:layout_width="match_parent"
+                android:completionThreshold="0"
                 android:layout_height="match_parent"
                 android:inputType="textPersonName"
                 android:labelFor="@id/hostInput"
@@ -152,6 +153,7 @@
                 android:id="@+id/dbNameInputAutoComplete"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:completionThreshold="0"
                 android:hint="database name"
                 android:labelFor="@id/dbNameInput"
                 android:text="@={credentials.dbName}" />

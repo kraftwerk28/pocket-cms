@@ -1,5 +1,6 @@
 package com.kraftwerk28.pocketcms.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -16,6 +17,9 @@ import com.kraftwerk28.pocketcms.R
 import com.kraftwerk28.pocketcms.adapters.DBListAdapter
 import com.kraftwerk28.pocketcms.dialogs.CreateDatabaseDialog
 import com.kraftwerk28.pocketcms.viewmodels.DBViewModel
+import com.kraftwerk28.pocketcms.viewmodels.notify
+import kotlinx.android.synthetic.main.dbview_item.view.*
+import kotlinx.android.synthetic.main.fragment_dbconnect.view.*
 import kotlinx.android.synthetic.main.fragment_dbview.view.*
 import kotlinx.coroutines.*
 
@@ -37,6 +41,14 @@ class DBViewFragment : Fragment() {
                 viewHolder: RecyclerView.ViewHolder,
                 direction: Int
             ) {
+                val dbName = viewHolder.itemView.dbnameText.text.toString()
+                val pos = viewModel.dbList.value?.indexOf(dbName) ?: -1
+                if (pos == -1) return
+                confirmAction("Remove database $dbName?", {
+                    viewModel.removeDB(dbName)
+                }, {
+                    adapter.notifyItemChanged(pos)
+                })
             }
         }
 
@@ -66,31 +78,40 @@ class DBViewFragment : Fragment() {
                 viewModel.fetchDbList()
             }
             createDatabaseFAB.setOnClickListener {
-                val dialog = CreateDatabaseDialog()
-                dialog.show(parentFragmentManager, "create database dialog")
+                CreateDatabaseDialog {
+                    viewModel.addDB(it)
+                }.show(parentFragmentManager, "create database dialog")
             }
             ItemTouchHelper(itemTouchHelperCallback)
                 .attachToRecyclerView(dbListView)
         }
 
-        viewModel.fetchDbList()
-
-        viewModel.dbList.observe(this, Observer {
-            Log.i(tag, it?.toString() ?: run { "nothing" })
-            if (it.size == 0) {
-                setListLoading()
-            } else {
-                setListLoading(false)
-                adapter.dbList = it
-                adapter.notifyDataSetChanged()
-            }
+        viewModel.loading.observe(viewLifecycleOwner, Observer {
+            setListLoading(it)
         })
+        viewModel.dbList.observe(viewLifecycleOwner, Observer {
+            adapter.submitList(it.toList())
+        })
+
+        viewModel.fetchDbList()
 
         return inflated
     }
 
     fun setListLoading(loading: Boolean = true) {
         inflated.refreshLayout.isRefreshing = loading
+    }
+
+    fun confirmAction(
+        title: String,
+        okCallback: () -> Unit,
+        cancelCallback: () -> Unit
+    ) {
+        AlertDialog.Builder(context)
+            .setTitle(title)
+            .setPositiveButton("Yes") { _, _ -> okCallback() }
+            .setNegativeButton("Cancel") { _, _ -> cancelCallback() }
+            .show()
     }
 
 }

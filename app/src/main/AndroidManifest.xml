@@ -14,48 +14,37 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activities.DBActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="pocket-cms.org"
+                    android:scheme="https" />
+                <data
+                    android:host="pocket-cms.org"
+                    android:scheme="http" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activities.LogoActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-            <!--            <intent-filter>-->
-            <!--                <action android:name="android.intent.action.MAIN" />-->
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-            <!--            </intent-filter>-->
-        </activity>
-        <activity android:name=".playground.RecyclerActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
+        <activity android:name=".playground.RecyclerActivity" />
         <activity android:name=".playground.ChargerMeter" />
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".MainActivity" />
         <activity android:name=".playground.GreetingActivity" />
         <activity android:name=".playground.FragmentActivity" />
         <activity
             android:name=".playground.CookieActivity"
-            android:screenOrientation="sensor">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
+            android:screenOrientation="sensor" />
 
         <service
             android:name=".playground.SampleService"

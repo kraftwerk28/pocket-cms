@@ -44,7 +44,23 @@ class Database {
         val username: String?,
         val password: String?,
         val dbName: String
-    )
+    ) {
+        companion object {
+            fun from(data: Map<String, String>) = data.run {
+                Credentials(
+                    (get("host") ?: "10.0.2.2").toString(),
+                    (get("port") ?: "5432").toString().toInt(),
+                    (get("username") ?: "kraftwerk28").toString(),
+                    (get("password") ?: "271818").toString(),
+                    (get("dbName") ?: "postgres").toString()
+                )
+            }
+
+            fun from(data: List<String>) = data.run {
+                Credentials(get(0), get(1).toInt(), get(2), get(3), get(4))
+            }
+        }
+    }
 
     var connection: Connection? = null
 
@@ -99,10 +115,14 @@ class Database {
                     .executeQuery(statement)
             }
 
-        fun query(
-            statement: String,
-            values: List<Any>
-        ): Deferred<ResultSet> {
+        fun update(statement: String): Deferred<Int> =
+            GlobalScope.async(Dispatchers.IO) {
+                instance.connection!!
+                    .createStatement()
+                    .executeUpdate(statement)
+            }
+
+        fun query(statement: String, values: List<Any>): Deferred<ResultSet> {
             val prepared = prepareQueryList(statement, values)
             return GlobalScope.async {
                 instance.connection!!
@@ -117,9 +137,7 @@ class Database {
         ): Deferred<ResultSet> {
             val prepared = prepareQueryList(statement, values)
             return GlobalScope.async {
-                instance.connection!!
-                    .createStatement()
-                    .executeQuery(prepared)
+                instance.connection!!.createStatement().executeQuery(prepared)
             }
         }
 

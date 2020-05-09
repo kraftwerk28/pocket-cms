@@ -29,12 +29,31 @@ class DBConnectFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ConnectCredentials(
-            savedInstanceState?.getString("host") ?: "10.0.2.2",
-            savedInstanceState?.getInt("port") ?: 5432,
-            savedInstanceState?.getString("username") ?: "kraftwerk28",
-            savedInstanceState?.getString("password") ?: "271828",
-            savedInstanceState?.getString("dbName") ?: "postgres"
+
+        viewModel = requireActivity().intent?.data?.run {
+            ConnectCredentials(
+                getQueryParameter("host") ?: "10.0.2.2",
+                getQueryParameter("port")?.toInt() ?: 5432,
+                getQueryParameter("username") ?: "kraftwerk28",
+                getQueryParameter("password") ?: "271828",
+                getQueryParameter("dbName") ?: "postgres"
+            )
+        } ?: run {
+            savedInstanceState?.run {
+                ConnectCredentials(
+                    getString("host", "10.0.2.2"),
+                    getInt("port", 5432),
+                    getString("username", "kraftwerk28"),
+                    getString("password", "271828"),
+                    getString("dbName", "postgres")
+                )
+            }
+        } ?: ConnectCredentials(
+            "10.0.2.2",
+            5432,
+            "kraftwerk28",
+            "271828",
+            "postgres"
         )
     }
 
@@ -67,10 +86,6 @@ class DBConnectFragment : Fragment() {
             restoreChooseVariants(dbNameInputAutoComplete)
         }
 
-        val prefs = activity?.getPreferences(Context.MODE_PRIVATE)
-        Log.i("Prefs", prefs?.all.toString())
-//        findNavController().navigate(R.id.action_tmp_toTableView)
-
         return binding.root
     }
 
@@ -84,8 +99,8 @@ class DBConnectFragment : Fragment() {
 
     private fun hideKeyboard() {
         requireActivity().run {
-            val imm =
-                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as
+                    InputMethodManager
             currentFocus?.let {
                 imm.hideSoftInputFromWindow(it.windowToken, 0)
             }

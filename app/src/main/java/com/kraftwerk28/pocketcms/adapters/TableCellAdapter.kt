@@ -9,13 +9,6 @@ class TableCellAdapter() : RV.Adapter<TableCellAdapter.ViewHolder>() {
     class ViewHolder(itemBinding: ItemTableRowBinding) :
         RV.ViewHolder(itemBinding.root)
 
-    override fun getItemCount(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -24,4 +17,11 @@ class TableCellAdapter() : RV.Adapter<TableCellAdapter.ViewHolder>() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getItemCount(): Int {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

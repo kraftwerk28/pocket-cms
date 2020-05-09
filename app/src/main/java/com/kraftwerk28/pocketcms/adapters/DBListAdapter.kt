@@ -3,32 +3,42 @@ package com.kraftwerk28.pocketcms.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView as RV
 import com.kraftwerk28.pocketcms.R
 import kotlinx.android.synthetic.main.dbview_item.view.*
 
+class DBListViewHolder(itemView: View) : RV.ViewHolder(itemView) {
+    fun bind(item: String, onDBItemClick: (dbName: String) -> Unit) {
+        itemView.dbnameText.text = item
+        itemView.setOnClickListener { onDBItemClick(item) }
+    }
+
+    companion object {
+        fun from(parent: ViewGroup, viewType: Int): DBListViewHolder {
+            val view = LayoutInflater
+                .from(parent.context)
+                .inflate(R.layout.dbview_item, parent, false)
+            return DBListViewHolder(view)
+        }
+    }
+}
+
+class DBItemDiffCallback : DiffUtil.ItemCallback<String>() {
+    override fun areContentsTheSame(oldItem: String, newItem: String): Boolean =
+        oldItem == newItem
+
+    override fun areItemsTheSame(oldItem: String, newItem: String): Boolean =
+        oldItem == newItem
+}
+
 class DBListAdapter(val onDBItemClick: (dbName: String) -> Unit) :
-    RecyclerView.Adapter<DBListAdapter.ViewHolder>() {
+    ListAdapter<String, DBListViewHolder>(DBItemDiffCallback()) {
 
-    var dbList: List<String> = mutableListOf()
+    override fun onBindViewHolder(holder: DBListViewHolder, position: Int) =
+        holder.bind(getItem(position), onDBItemClick)
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val dbName = dbList[position]
-        holder.itemView.dbnameText.text = dbName
-        holder.itemView.setOnClickListener { onDBItemClick(dbName) }
-    }
-
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): ViewHolder {
-        val view = LayoutInflater
-            .from(parent.context)
-            .inflate(R.layout.dbview_item, parent, false)
-        return ViewHolder(view)
-    }
-
-    override fun getItemCount(): Int = dbList.size
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        DBListViewHolder.from(parent, viewType)
 }
