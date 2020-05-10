@@ -13,8 +13,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:background="#FFF"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#FFF">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
@@ -27,9 +27,11 @@
 
 
             <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:menu="@menu/menu1"
+                app:navigationIcon="@drawable/ic_arrow_back_black_24dp"
                 app:title="Manage tables"
                 app:titleTextColor="@color/icons" />
         </com.google.android.material.appbar.AppBarLayout>

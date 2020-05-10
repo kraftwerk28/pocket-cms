@@ -29,8 +29,7 @@ class DBViewFragment : Fragment() {
     private lateinit var inflated: View
     private lateinit var viewModel: DBViewModel
     private val itemTouchHelperCallback =
-        object :
-            ItemTouchHelper.SimpleCallback(0, LEFT or RIGHT) {
+        object : ItemTouchHelper.SimpleCallback(0, LEFT or RIGHT) {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -63,7 +62,6 @@ class DBViewFragment : Fragment() {
 
         viewModel = DBViewModel()
 
-        activity?.actionBar?.title = "Databases"
         adapter = DBListAdapter(onDBItemClick = {
             GlobalScope.launch(Dispatchers.IO) {
                 Database.credentials = Database.credentials?.copy(dbName = it)
@@ -78,12 +76,15 @@ class DBViewFragment : Fragment() {
                 viewModel.fetchDbList()
             }
             createDatabaseFAB.setOnClickListener {
-                CreateDatabaseDialog {
+                CreateDatabaseDialog(constraintLayout, {
                     viewModel.addDB(it)
-                }.show(parentFragmentManager, "create database dialog")
+                }).show(parentFragmentManager, "create database dialog")
             }
             ItemTouchHelper(itemTouchHelperCallback)
                 .attachToRecyclerView(dbListView)
+            toolbar.setNavigationOnClickListener {
+                findNavController().navigateUp()
+            }
         }
 
         viewModel.loading.observe(viewLifecycleOwner, Observer {
@@ -111,6 +112,7 @@ class DBViewFragment : Fragment() {
             .setTitle(title)
             .setPositiveButton("Yes") { _, _ -> okCallback() }
             .setNegativeButton("Cancel") { _, _ -> cancelCallback() }
+            .setOnCancelListener { cancelCallback() }
             .show()
     }
 

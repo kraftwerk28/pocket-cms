@@ -14,7 +14,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -65,8 +67,8 @@
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/hostAutoCompleteTextView"
                 android:layout_width="match_parent"
-                android:completionThreshold="0"
                 android:layout_height="match_parent"
+                android:completionThreshold="0"
                 android:inputType="textPersonName"
                 android:labelFor="@id/hostInput"
                 android:text="@={credentials.host}" />
@@ -91,7 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="number"
-                android:text="@={Converter.intToString(credentials.port)}"
+                android:text="@={credentials.port}"
                 app:layout_constraintEnd_toEndOf="parent" />
         </com.google.android.material.textfield.TextInputLayout>
 

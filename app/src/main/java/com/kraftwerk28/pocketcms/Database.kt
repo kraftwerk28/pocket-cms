@@ -40,7 +40,7 @@ class Database {
 
     data class Credentials(
         val host: String,
-        val port: Int,
+        val port: String,
         val username: String?,
         val password: String?,
         val dbName: String
@@ -49,7 +49,7 @@ class Database {
             fun from(data: Map<String, String>) = data.run {
                 Credentials(
                     (get("host") ?: "10.0.2.2").toString(),
-                    (get("port") ?: "5432").toString().toInt(),
+                    (get("port") ?: "5432").toString(),
                     (get("username") ?: "kraftwerk28").toString(),
                     (get("password") ?: "271818").toString(),
                     (get("dbName") ?: "postgres").toString()
@@ -57,7 +57,7 @@ class Database {
             }
 
             fun from(data: List<String>) = data.run {
-                Credentials(get(0), get(1).toInt(), get(2), get(3), get(4))
+                Credentials(get(0), get(1), get(2), get(3), get(4))
             }
         }
     }

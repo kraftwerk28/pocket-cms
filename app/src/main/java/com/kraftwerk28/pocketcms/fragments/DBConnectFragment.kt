@@ -33,7 +33,7 @@ class DBConnectFragment : Fragment() {
         viewModel = requireActivity().intent?.data?.run {
             ConnectCredentials(
                 getQueryParameter("host") ?: "10.0.2.2",
-                getQueryParameter("port")?.toInt() ?: 5432,
+                getQueryParameter("port") ?: 5432.toString(),
                 getQueryParameter("username") ?: "kraftwerk28",
                 getQueryParameter("password") ?: "271828",
                 getQueryParameter("dbName") ?: "postgres"
@@ -42,7 +42,7 @@ class DBConnectFragment : Fragment() {
             savedInstanceState?.run {
                 ConnectCredentials(
                     getString("host", "10.0.2.2"),
-                    getInt("port", 5432),
+                    getString("port", "5432"),
                     getString("username", "kraftwerk28"),
                     getString("password", "271828"),
                     getString("dbName", "postgres")
@@ -50,7 +50,7 @@ class DBConnectFragment : Fragment() {
             }
         } ?: ConnectCredentials(
             "10.0.2.2",
-            5432,
+            "5432",
             "kraftwerk28",
             "271828",
             "postgres"
@@ -109,11 +109,13 @@ class DBConnectFragment : Fragment() {
 
     fun validate(): Boolean {
         var correct = true
-        if (viewModel.port.value!! > 65536) {
+        if ((viewModel.port.value!!.length == 0) or
+            (viewModel.port.value!!.toInt() > 65536)
+        ) {
             binding.portInput.error = "Wrong port"
             correct = false
         }
-        if (Character.isDigit(viewModel.dbName.value!![0])) {
+        if (Character.isDigit(viewModel.dbName.value!!.get(0))) {
             binding.dbNameInput.error = "Bad DB name"
             correct = false
         }

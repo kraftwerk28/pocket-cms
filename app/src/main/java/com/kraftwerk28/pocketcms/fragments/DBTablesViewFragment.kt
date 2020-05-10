@@ -7,17 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.kraftwerk28.pocketcms.R
 import com.kraftwerk28.pocketcms.adapters.DBTablesAdapter
 import com.kraftwerk28.pocketcms.databinding.FragmentDbtablesViewBinding
 import com.kraftwerk28.pocketcms.viewmodels.DBTablesViewModel
-import kotlinx.android.synthetic.main.dbview_item.view.*
 import kotlinx.android.synthetic.main.fragment_dbtables_view.view.*
-import kotlinx.android.synthetic.main.fragment_dbview.view.*
 
 class DBTablesViewFragment : Fragment() {
 
@@ -58,6 +54,9 @@ class DBTablesViewFragment : Fragment() {
                     swipeRefreshLayout.isRefreshing = it.isEmpty()
                 }
             )
+            toolbar.setNavigationOnClickListener {
+                findNavController().navigateUp()
+            }
         }
         viewModel.fetchTables()
 
