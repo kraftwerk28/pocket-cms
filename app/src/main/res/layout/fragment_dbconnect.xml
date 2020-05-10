@@ -19,6 +19,7 @@
         android:focusableInTouchMode="true">
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="visible"
@@ -189,5 +190,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/connectButton" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/goToTable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:paddingStart="64dp"
+            android:paddingEnd="64dp"
+            android:text="Go to table"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dbSelectButton" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

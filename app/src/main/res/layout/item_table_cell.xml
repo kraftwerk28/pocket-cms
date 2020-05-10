@@ -1,15 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
-<layout>
+<?xml version="1.0" encoding="utf-8"?><!--<layout xmlns:android="http://schemas.android.com/apk/res/android">-->
 
-    <data>
+<!--    <data>-->
 
-        <variable
-            name="cellData"
-            type="String" />
-    </data>
+<!--        <variable-->
+<!--            name="cellData"-->
+<!--            type="String" />-->
+<!--    </data>-->
 
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+<!--    <com.google.android.material.textfield.TextInputEditText-->
+<!--        android:id="@+id/cellView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
 
-</layout>
+<!--</layout>-->
+<com.google.android.material.textfield.TextInputEditText xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cellView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />

@@ -3,6 +3,5 @@
     <string name="channel_name">NotifChannel</string>
     <string name="pressButtonText">Sample text</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sharedPrefsFileKey">com.kraftwerk28.pocketcms.PREFS_FILE_KEY</string>
 </resources>

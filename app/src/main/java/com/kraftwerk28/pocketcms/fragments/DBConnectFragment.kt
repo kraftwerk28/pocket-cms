@@ -49,11 +49,11 @@ class DBConnectFragment : Fragment() {
                 )
             }
         } ?: ConnectCredentials(
-            "10.0.2.2",
+            "",
             "5432",
             "kraftwerk28",
             "271828",
-            "postgres"
+            ""
         )
     }
 
@@ -79,9 +79,13 @@ class DBConnectFragment : Fragment() {
                 hideKeyboard()
                 goToDBView()
             }
+            goToTable.setOnClickListener {
+                findNavController().navigate(R.id.action_tmp_toTableView)
+            }
             connectionTitle.setOnClickListener {
                 copyToClipboard(binding.connectionTitle.text.toString())
             }
+
             restoreChooseVariants(hostAutoCompleteTextView)
             restoreChooseVariants(dbNameInputAutoComplete)
         }
@@ -181,21 +185,27 @@ class DBConnectFragment : Fragment() {
 
     private fun saveChooseVariants(actv: AutoCompleteTextView, value: String) {
         // Save database name for autocompleteview
-        val prefs = activity?.getPreferences(Context.MODE_PRIVATE)
+        val prefs = requireActivity().getSharedPreferences(
+            getString(R.string.sharedPrefsFileKey),
+            Context.MODE_PRIVATE
+        )
         prefs?.run {
             val key = "choose_variants.${actv.id}"
-            val savedDbList = getStringSet(key, mutableSetOf())!!
+            val savedDbList = HashSet(getStringSet(key, hashSetOf())!!)
             savedDbList.add(value)
-            edit().putStringSet(key, savedDbList).commit()
+            val editor = edit()
+            editor.putStringSet(key, savedDbList).apply()
         }
     }
 
     private fun restoreChooseVariants(actv: AutoCompleteTextView) {
-        val prefs = activity?.getPreferences(Context.MODE_PRIVATE)
+        val prefs = requireActivity().getSharedPreferences(
+            getString(R.string.sharedPrefsFileKey),
+            Context.MODE_PRIVATE
+        )
         prefs?.run {
             val key = "choose_variants.${actv.id}"
-            val savedList = getStringSet(key, setOf())!!
-            Log.i("Prefs", savedList.toString())
+            val savedList = getStringSet(key, hashSetOf())!!
             actv.setAdapter(
                 ArrayAdapter<String>(
                     context!!,

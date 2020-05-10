@@ -8,6 +8,10 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
     buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "com.kraftwerk28.pocketcms"
