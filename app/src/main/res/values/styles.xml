@@ -3,11 +3,14 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light">
         <!-- Customize your theme here. -->
-<!--        <item name="colorPrimary">@color/primary</item>-->
-<!--        <item name="colorPrimaryDark">@color/primary_dark</item>-->
-<!--        <item name="colorAccent">@color/colorAccent</item>-->
+        <!--        <item name="colorPrimary">@color/primary</item>-->
+        <!--        <item name="colorPrimaryDark">@color/primary_dark</item>-->
+        <!--        <item name="colorAccent">@color/colorAccent</item>-->
     </style>
 
+    <!--    <style name="inputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox" />-->
     <style name="inputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox" />
+
+    <style name="autoCompleteInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu" />
 
 </resources>

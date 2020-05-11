@@ -53,7 +53,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/hostInput"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            style="@style/autoCompleteInputStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -79,7 +79,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/portInput"
             style="@style/inputStyle"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
@@ -91,8 +91,9 @@
             app:layout_constraintTop_toBottomOf="@+id/connectionTitle">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:ems="5"
                 android:inputType="number"
                 android:text="@={credentials.port}"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -141,7 +142,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/dbNameInput"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            style="@style/autoCompleteInputStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
