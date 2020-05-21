@@ -16,5 +16,7 @@
     <color name="blur">#55212121</color>
 
     <color name="table_cell_updated">#88FFFF00</color>
+    <color name="table_cell_new">#888BC34A</color>
+    <color name="table_cell_deleted">#88FF4F4F</color>
 
 </resources>

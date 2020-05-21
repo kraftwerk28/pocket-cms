@@ -9,8 +9,8 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-fun <T> MutableLiveData<T>.notify() {
-    value = value
+fun <T> MutableLiveData<T>.notify(v: T? = null) {
+    value = v ?: value
 }
 
 class DBViewModel : ViewModel() {

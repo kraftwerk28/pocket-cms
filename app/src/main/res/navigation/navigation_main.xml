@@ -24,7 +24,11 @@
             app:popExitAnim="@anim/anim_slide_right" />
         <action
             android:id="@+id/action_tmp_toTableView"
-            app:destination="@id/tableViewFragment" />
+            app:destination="@id/tableViewFragment"
+            app:enterAnim="@anim/anim_slide_left"
+            app:exitAnim="@anim/anim_scale_out"
+            app:popEnterAnim="@anim/anim_scale_in"
+            app:popExitAnim="@anim/anim_slide_right" />
     </fragment>
     <fragment
         android:id="@+id/DBViewFragment"
@@ -41,7 +45,7 @@
     <fragment
         android:id="@+id/DBTablesViewFragment"
         android:name="com.kraftwerk28.pocketcms.fragments.DBTablesViewFragment"
-        android:label="DBTablesViewFragment" >
+        android:label="DBTablesViewFragment">
         <action
             android:id="@+id/action_DBTablesViewFragment_to_DBConnectFragment2"
             app:destination="@id/DBConnectFragment2"

@@ -1,53 +1,74 @@
 package com.kraftwerk28.pocketcms.fragments
 
 import android.content.Context
-import android.graphics.ColorFilter
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModel
 import com.evrencoskun.tableview.adapter.AbstractTableAdapter
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder
 import com.kraftwerk28.pocketcms.R
 import com.kraftwerk28.pocketcms.viewmodels.TableViewModel
 import kotlinx.android.synthetic.main.item_table_cell.view.*
+import java.lang.Exception
 
 class TableViewAdapter(
     val context: Context,
     val viewModel: TableViewModel
 ) : AbstractTableAdapter<ColumnHeader, RowHeader, Cell>() {
 
+    val updatedColor: Int
+    val newColor: Int
+    val deletedColor: Int
+
+    init {
+        updatedColor =
+            ContextCompat.getColor(context, R.color.table_cell_updated)
+        newColor = ContextCompat.getColor(context, R.color.table_cell_new)
+        deletedColor =
+            ContextCompat.getColor(context, R.color.table_cell_deleted)
+    }
+
+    private fun rows2matrix(
+        maps: List<Map<String, Cell>>
+    ): List<List<Cell>> = maps
+        .map { row ->
+            viewModel.header.map { col -> Cell(row.get(col)?.data) }
+        }
+
+    fun updateTableContents() {
+        setColumnHeaderItems(viewModel.header.map { ColumnHeader(it) })
+        val prepared = viewModel.run {
+            newRows.value!! +
+                    rows.mapIndexed { index, mutableMap ->
+                        if (modifiedRows.value!!.containsKey(index)) {
+                            val newMap = mutableMap
+                                .toMutableMap()
+                            newMap.putAll(modifiedRows.value!![index]!!)
+                            newMap
+                        } else
+                            mutableMap
+                    }
+        }
+        setCellItems(rows2matrix(prepared))
+        notifyDataSetChanged()
+    }
+
     // On create methods
     override fun onCreateRowHeaderViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): AbstractViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_table_cell, parent, false)
-        return CellViewHolder(view)
-    }
+    ): AbstractViewHolder = CellViewHolder.onCreate(parent, viewType)
 
     override fun onCreateCellViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): AbstractViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_table_cell, parent, false)
-        return CellViewHolder(view)
-    }
+    ): AbstractViewHolder = CellViewHolder.onCreate(parent, viewType)
 
     override fun onCreateColumnHeaderViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): AbstractViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_table_cell, parent, false)
-        return CellViewHolder(view)
-    }
+    ): AbstractViewHolder = CellViewHolder.onCreate(parent, viewType)
 
     override fun onCreateCornerView(parent: ViewGroup): View =
         LayoutInflater.from(parent.context)
@@ -61,21 +82,28 @@ class TableViewAdapter(
         rowPosition: Int
     ) {
         val h = holder as CellViewHolder
-        h.bind(
+        h.onBind(
             cellItemModel!!,
             rowPosition,
             columnPosition
         )
 
-        if (viewModel.tableDiff.value?.modified?.contains(rowPosition)
-                ?: false
-        ) {
-            h.itemView.cellView.setBackgroundColor(
-                ContextCompat.getColor(
-                    context,
-                    R.color.table_cell_updated
-                )
+        viewModel.run {
+            val newRowsSize = newRows.value?.size ?: 0
+            val isUpdated = modifiedRows.value!!.containsKey(
+                rowPosition - newRowsSize
             )
+            val isNew = rowPosition <= newRows.value!!.size - 1
+            val isDeleted =
+                deletedRows.value!!.contains(rowPosition - newRowsSize)
+
+            val cl = when {
+                isUpdated -> updatedColor
+                isNew -> newColor
+                isDeleted -> deletedColor
+                else -> null
+            }
+            cl?.let { h.itemView.cellView.setBackgroundColor(it) }
         }
     }
 
@@ -84,7 +112,7 @@ class TableViewAdapter(
         columnHeaderItemModel: ColumnHeader?,
         columnPosition: Int
     ) {
-        (holder as CellViewHolder).bind(
+        (holder as CellViewHolder).onBind(
             columnHeaderItemModel!!,
             -1,
             columnPosition
@@ -96,13 +124,12 @@ class TableViewAdapter(
         rowHeaderItemModel: RowHeader?,
         rowPosition: Int
     ) {
-        (holder as CellViewHolder).bind(
+        (holder as CellViewHolder).onBind(
             rowHeaderItemModel!!,
             rowPosition,
             -1
         )
     }
-
 
     // Type getters
     override fun getCellItemViewType(position: Int): Int = 0
@@ -110,20 +137,19 @@ class TableViewAdapter(
     override fun getColumnHeaderItemViewType(position: Int): Int = 0
 
     override fun getRowHeaderItemViewType(position: Int): Int = 0
-
-    fun setRows(header: List<ColumnHeader>, data: List<Map<String, Cell>>) {
-        setColumnHeaderItems(header)
-        setCellItems(
-            data.map { cortage -> header.map { cortage.get(it.data) } }
-        )
-    }
-
-    fun notifyRowsChanged() {
-
-    }
 }
 
-open class Cell(val data: String)
+open class Cell {
+    val data: String
+
+    constructor(v: String?) {
+        data = v ?: "null"
+    }
+
+    constructor(old: Cell?) {
+        data = old?.data ?: "null"
+    }
+}
 
 class ColumnHeader(data: String) : Cell(data)
 
@@ -131,12 +157,18 @@ class RowHeader(data: String) : Cell(data)
 
 open class CellViewHolder(itemView: View) :
     AbstractViewHolder(itemView) {
-    fun bind(cell: Cell, row: Int, column: Int) {
-        itemView.cellView.run {
-            text = cell.data
-            setOnClickListener {
-                Log.i(javaClass.simpleName, "Row $row clicked")
-            }
+    fun onBind(cell: Cell, row: Int, column: Int) {
+        itemView.cellView.run { text = cell.data }
+    }
+
+    companion object {
+        fun onCreate(
+            parent: ViewGroup,
+            viewType: Int? = null
+        ): AbstractViewHolder {
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_table_cell, parent, false)
+            return CellViewHolder(view)
         }
     }
 }

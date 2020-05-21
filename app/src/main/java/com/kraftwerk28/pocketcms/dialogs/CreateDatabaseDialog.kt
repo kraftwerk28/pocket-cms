@@ -17,7 +17,7 @@ class CreateDatabaseDialog(
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(activity)
         val view = layoutInflater
-            .inflate(R.layout.dialog_create_database, parent, false)
+            .inflate(R.layout.dialog_create_database, parent)
         builder
             .setView(view)
             .setTitle("Create database")

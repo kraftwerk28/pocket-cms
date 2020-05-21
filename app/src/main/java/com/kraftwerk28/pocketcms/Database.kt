@@ -71,6 +71,7 @@ class Database {
     }
 
     companion object {
+        var currentTable: String? = null
         var credentials: Credentials? = null
         private fun prepareQueryList(query: String, l: List<Any> = listOf()) =
             l.foldIndexed(query)
