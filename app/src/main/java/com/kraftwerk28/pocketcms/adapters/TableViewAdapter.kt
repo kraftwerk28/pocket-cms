@@ -33,22 +33,23 @@ class TableViewAdapter(
         maps: List<Map<String, Cell>>
     ): List<List<Cell>> = maps
         .map { row ->
-            viewModel.header.map { col -> Cell(row.get(col)?.data) }
+            viewModel.header.value!!.map { col -> Cell(row.get(col)?.data) }
         }
 
     fun updateTableContents() {
-        setColumnHeaderItems(viewModel.header.map { ColumnHeader(it) })
+        setColumnHeaderItems(viewModel.header.value!!.map { ColumnHeader(it) })
         val prepared = viewModel.run {
-            newRows.value!! +
-                    rows.mapIndexed { index, mutableMap ->
-                        if (modifiedRows.value!!.containsKey(index)) {
-                            val newMap = mutableMap
-                                .toMutableMap()
-                            newMap.putAll(modifiedRows.value!![index]!!)
-                            newMap
-                        } else
-                            mutableMap
-                    }
+            val prevRows = rows.value!!
+                .mapIndexed { index, mutableMap ->
+                    if (modifiedRows.value!!.containsKey(index)) {
+                        val newMap = mutableMap
+                            .toMutableMap()
+                        newMap.putAll(modifiedRows.value!![index]!!)
+                        newMap
+                    } else
+                        mutableMap
+                }
+            newRows.value!! + prevRows
         }
         setCellItems(rows2matrix(prepared))
         notifyDataSetChanged()
@@ -148,6 +149,11 @@ open class Cell {
 
     constructor(old: Cell?) {
         data = old?.data ?: "null"
+    }
+
+    override fun toString(): String = when {
+        data === "null" -> data
+        else -> "'$data'"
     }
 }
 

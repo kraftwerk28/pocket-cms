@@ -1,24 +1,21 @@
 package com.kraftwerk28.pocketcms.dialogs
 
+import android.app.Activity
 import android.app.AlertDialog
-import android.app.Dialog
-import android.os.Bundle
-import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import com.kraftwerk28.pocketcms.R
 import kotlinx.android.synthetic.main.dialog_create_database.view.*
 
 class CreateDatabaseDialog(
-    val parent: ViewGroup,
-    val onCreateCallback: (dbName: String) -> Unit
-) :
-    DialogFragment() {
+    activity: Activity,
+    onCreateCallback: (dbName: String) -> Unit
+) {
+    val dialogBuilder: AlertDialog.Builder
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = AlertDialog.Builder(activity)
-        val view = layoutInflater
-            .inflate(R.layout.dialog_create_database, parent)
-        builder
+    init {
+        val view = activity
+            .layoutInflater
+            .inflate(R.layout.dialog_create_database, null)
+        dialogBuilder = AlertDialog.Builder(activity)
             .setView(view)
             .setTitle("Create database")
             .setPositiveButton("Create")
@@ -26,6 +23,7 @@ class CreateDatabaseDialog(
                 onCreateCallback(view.dbNameInput.text.toString())
             }
             .setNegativeButton("Cancel", null)
-        return builder.create()
     }
+
+    fun show() = dialogBuilder.show()
 }

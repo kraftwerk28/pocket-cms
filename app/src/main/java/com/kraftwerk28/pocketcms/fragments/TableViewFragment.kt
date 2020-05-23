@@ -24,15 +24,15 @@ import kotlinx.android.synthetic.main.fragment_table_view.view.refreshLayout
 import kotlinx.android.synthetic.main.fragment_table_view.view.toolbar
 
 class TableViewFragment : Fragment() {
-    val headerMockData = (0..9).map { "H:$it" }
-    val cellMockData = (0..9).map { row ->
-        headerMockData.foldIndexed(
-            mutableMapOf<String, Cell>(),
-            { idx, acc, h ->
-                acc.set(h, Cell("$row:$idx"))
-                acc
-            })
-    }
+//    val headerMockData = (0..9).map { "H:$it" }
+//    val cellMockData = (0..9).map { row ->
+//        headerMockData.foldIndexed(
+//            mutableMapOf<String, Cell>(),
+//            { idx, acc, h ->
+//                acc.set(h, Cell("$row:$idx"))
+//                acc
+//            })
+//    }
 
     //    val headerMockData = mockData.get(0).map { ColumnHeader("H:${it.data}") }
     private lateinit var viewModel: TableViewModel
@@ -46,14 +46,9 @@ class TableViewFragment : Fragment() {
 
         val inflated = inflater
             .inflate(R.layout.fragment_table_view, container, false)
-        viewModel = TableViewModel(
-            listOf(),
-            mutableListOf(),
-            listOf(),
-            Database.currentTable!!
-        )
-        viewModel.rows = cellMockData.toMutableList()
-        viewModel.header = headerMockData
+        viewModel = TableViewModel(Database.currentTable!!)
+//        viewModel.rows = cellMockData.toMutableList()
+//        viewModel.header = headerMockData
 
         tableAdapter = TableViewAdapter(requireContext(), viewModel)
         val tableViewListener = TableViewListener(requireContext(), viewModel)
@@ -70,8 +65,18 @@ class TableViewFragment : Fragment() {
             newRows.observe(viewLifecycleOwner, Observer {
                 tableAdapter.updateTableContents()
             })
+            rows.observe(viewLifecycleOwner, Observer {
+                tableAdapter.updateTableContents()
+            })
+
             isLoading.observe(viewLifecycleOwner, Observer {
                 refreshLayout.isRefreshing = it
+            })
+
+            errorMessage.observe(viewLifecycleOwner, Observer {
+                it?.let {
+                    // Show dialog with error
+                }
             })
         }
 
