@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
-import com.kraftwerk28.pocketcms.ConfirmAction
+import com.kraftwerk28.pocketcms.dialogs.ConfirmAction
 import com.kraftwerk28.pocketcms.Database
 import com.kraftwerk28.pocketcms.ItemSwipeHelper
 import com.kraftwerk28.pocketcms.R
@@ -24,15 +24,21 @@ class DBViewFragment : Fragment() {
     private lateinit var adapter: DBListAdapter
     private lateinit var inflated: View
     private lateinit var viewModel: DBViewModel
+
     private val itemTouchHelperCallback = ItemSwipeHelper {
         val dbName = it.itemView.dbnameText.text.toString()
         val pos = viewModel.dbList.value?.indexOf(dbName) ?: -1
         if (pos == -1) return@ItemSwipeHelper
-        ConfirmAction(requireContext(), "Remove database $dbName?", {
-            viewModel.removeDB(dbName)
-        }, {
-            adapter.notifyItemChanged(pos)
-        }).invoke()
+        ConfirmAction(
+            requireContext(),
+            "Remove database $dbName?",
+            {
+                viewModel.removeDB(dbName)
+            },
+            {
+                adapter.notifyItemChanged(pos)
+            }
+        ).invoke()
     }
 
     override fun onCreateView(
@@ -64,9 +70,9 @@ class DBViewFragment : Fragment() {
                 viewModel.fetchDbList()
             }
             createDatabaseFAB.setOnClickListener {
-                CreateDatabaseDialog(requireActivity())
+                CreateDatabaseDialog(requireContext())
                 { viewModel.addDB(it) }
-                    .show()
+                    .invoke()
             }
             ItemTouchHelper(itemTouchHelperCallback)
                 .attachToRecyclerView(dbListView)
@@ -82,9 +88,12 @@ class DBViewFragment : Fragment() {
             adapter.submitList(it.toList())
         })
 
-        viewModel.fetchDbList()
-
         return inflated
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.fetchDbList()
     }
 
     fun setListLoading(loading: Boolean = true) {

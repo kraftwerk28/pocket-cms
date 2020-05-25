@@ -7,49 +7,50 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
-import com.kraftwerk28.pocketcms.ConfirmAction
+import com.kraftwerk28.pocketcms.dialogs.ConfirmAction
 import com.kraftwerk28.pocketcms.Database
 import com.kraftwerk28.pocketcms.ItemSwipeHelper
 import com.kraftwerk28.pocketcms.R
 import com.kraftwerk28.pocketcms.adapters.DBTablesAdapter
-import com.kraftwerk28.pocketcms.databinding.FragmentDbtablesViewBinding
 import com.kraftwerk28.pocketcms.viewmodels.DBTablesViewModel
+import kotlinx.android.synthetic.main.dbview_item.view.*
 import kotlinx.android.synthetic.main.fragment_dbtables_view.view.*
-import kotlinx.android.synthetic.main.item_table.view.*
 
 class DBTablesViewFragment : Fragment() {
 
     private lateinit var adapter: DBTablesAdapter
     lateinit var viewModel: DBTablesViewModel
-    lateinit var binding: FragmentDbtablesViewBinding
     private val itemTouchHelperCallback = ItemSwipeHelper {
-        val tableName = it.itemView.tableNameText.toString()
-        val pos = viewModel.tables.value?.indexOf(tableName)
-        if (pos == null) return@ItemSwipeHelper
-        ConfirmAction(requireContext(), "Remove table $tableName?", {
-            Log.i(javaClass.simpleName, "Removed table")
-        }, {
-            adapter.notifyItemChanged(pos)
-        })
+        val tableName = it.itemView.dbnameText.text.toString()
+        val pos = viewModel.tables.value?.indexOf(tableName) ?: -1
+        if (pos == -1) return@ItemSwipeHelper
+        ConfirmAction(
+            requireContext(),
+            "Remove table $tableName?",
+            {
+                viewModel.removeTable(tableName)
+            },
+            {
+                adapter.notifyItemChanged(pos)
+            }
+        ).invoke()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(
-            inflater,
+
+        val inflated = inflater.inflate(
             R.layout.fragment_dbtables_view,
             container,
             false
         )
-        binding.setLifecycleOwner(this)
+
         viewModel = DBTablesViewModel()
-        binding.viewModel = viewModel
         adapter = DBTablesAdapter(
             viewModel,
             onTableItemClick = {
@@ -66,12 +67,6 @@ class DBTablesViewFragment : Fragment() {
             }
         }
 
-        val inflated = inflater.inflate(
-            R.layout.fragment_dbtables_view,
-            container,
-            false
-        )
-
         inflated.run {
             dbTablesView.adapter = adapter
             ItemTouchHelper(itemTouchHelperCallback)
@@ -85,17 +80,23 @@ class DBTablesViewFragment : Fragment() {
                 viewLifecycleOwner,
                 Observer {
                     adapter.submitList(it)
-                    swipeRefreshLayout.isRefreshing = it.isEmpty()
                 }
             )
+            viewModel.isLoading.observe(viewLifecycleOwner, Observer {
+                swipeRefreshLayout.isRefreshing = it
+            })
 
             toolbar.setNavigationOnClickListener {
                 findNavController().navigateUp()
             }
         }
 
-        viewModel.fetchTables()
-
         return inflated
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.fetchTables()
     }
 }

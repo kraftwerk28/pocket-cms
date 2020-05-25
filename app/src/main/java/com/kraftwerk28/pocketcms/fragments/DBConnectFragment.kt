@@ -14,7 +14,6 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.kraftwerk28.pocketcms.Database
 import com.kraftwerk28.pocketcms.R
@@ -70,7 +69,7 @@ class DBConnectFragment : Fragment() {
             false
         )
         binding.run {
-            setLifecycleOwner(this@DBConnectFragment)
+            lifecycleOwner = this@DBConnectFragment
             credentials = viewModel
             connectButton.setOnClickListener {
                 hideKeyboard()
@@ -79,9 +78,6 @@ class DBConnectFragment : Fragment() {
             dbSelectButton.setOnClickListener {
                 hideKeyboard()
                 goToDBView()
-            }
-            goToTable.setOnClickListener {
-                findNavController().navigate(R.id.action_tmp_toTableView)
             }
             connectionTitle.setOnClickListener {
                 copyToClipboard(binding.connectionTitle.text.toString())
@@ -112,15 +108,15 @@ class DBConnectFragment : Fragment() {
         }
     }
 
-    fun validate(): Boolean {
+    private fun validate(): Boolean {
         var correct = true
-        if ((viewModel.port.value!!.length == 0) or
+        if ((viewModel.port.value!!.isEmpty()) or
             (viewModel.port.value!!.toInt() > 65536)
         ) {
             binding.portInput.error = "Wrong port"
             correct = false
         }
-        if (Character.isDigit(viewModel.dbName.value!!.get(0))) {
+        if (Character.isDigit(viewModel.dbName.value!![0])) {
             binding.dbNameInput.error = "Bad DB name"
             correct = false
         }
@@ -208,8 +204,8 @@ class DBConnectFragment : Fragment() {
             val key = "choose_variants.${actv.id}"
             val savedList = getStringSet(key, hashSetOf())!!
             actv.setAdapter(
-                ArrayAdapter<String>(
-                    context!!,
+                ArrayAdapter(
+                    requireContext(),
                     android.R.layout.simple_dropdown_item_1line,
                     savedList.toList()
                 )

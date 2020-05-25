@@ -18,8 +18,9 @@ class ModifyRowDialog(
             .inflate(R.layout.dialog_modify_row, parent, false)
         return AlertDialog.Builder(context)
             .setView(view)
-            .setTitle("Modify row")
-            .setPositiveButton("Ok") { dialog, which ->
+            .setTitle(requireContext().getString(R.string.dialog_modify_row))
+            .setPositiveButton(requireContext().getString(R.string.dialog_ok))
+            { dialog, which ->
                 TODO()
             }
             .setNegativeButton("Cancel") { dialog, which ->

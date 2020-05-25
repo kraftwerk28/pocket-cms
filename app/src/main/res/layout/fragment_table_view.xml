@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/fragment_background"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -22,7 +23,6 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:foregroundTint="@color/icons"
                 app:menu="@menu/menu_tableview"
                 app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
                 app:title="Manage table"
@@ -43,7 +43,7 @@
 
             <com.evrencoskun.tableview.TableView
                 android:id="@+id/tableView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 app:allow_click_inside_cell="true"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -1,15 +1,15 @@
 package com.kraftwerk28.pocketcms.viewmodels
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.kraftwerk28.pocketcms.Database
 import com.kraftwerk28.pocketcms.fragments.Cell
 import com.kraftwerk28.pocketcms.toLists
 import com.kraftwerk28.pocketcms.toMaps
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.sql.SQLException
 
 // Only for LiveData table diff
 typealias Row = MutableMap<String, Cell>
@@ -23,11 +23,22 @@ class TableViewModel(private val tableName: String) : ViewModel() {
     val rows = MutableLiveData<List<Map<String, Cell>>>(listOf())
     val header = MutableLiveData<List<String>>(listOf())
     val primaryKeys = MutableLiveData<List<String>>(listOf())
+
     val modifiedRows = MutableLiveData(_modifiedRows)
     val newRows = MutableLiveData(_newRows)
     val deletedRows = MutableLiveData(_deletedRows)
-    val isLoading = MutableLiveData<Boolean>(false)
+
+    val isLoading = MutableLiveData(false)
     val errorMessage = MutableLiveData<String?>(null)
+    val isDiffEmpty = MediatorLiveData<Boolean>()
+
+    init {
+        isDiffEmpty.run {
+            addSource(modifiedRows) { isDiffEmpty.value = it.isEmpty() }
+            addSource(deletedRows) { isDiffEmpty.value = it.isEmpty() }
+            addSource(newRows) { isDiffEmpty.value = it.isEmpty() }
+        }
+    }
 
     fun newRow() {
         _newRows.add(mutableMapOf())
@@ -113,7 +124,7 @@ class TableViewModel(private val tableName: String) : ViewModel() {
         if (deletedRows.value?.size == 0) return null
         fun whereTuple(pk: String): String = _deletedRows
             .map { rows.value!![it][pk] }
-            .joinToString(prefix = "(", postfix = ")")
+            .joinToString()
 
         val whereClause = primaryKeys.value!!
             .map { pk -> "$pk IN ${whereTuple(pk)}" }
@@ -122,7 +133,23 @@ class TableViewModel(private val tableName: String) : ViewModel() {
                 " WHERE $whereClause"
     }
 
-    fun produceUpdateQueries(): List<String> = listOf()
+    fun produceUpdateQueries(): List<String> {
+        if (modifiedRows.value?.size == 0) return emptyList()
+
+        fun whereClause(idx: Int) = primaryKeys.value!!
+            .map { pk -> "$pk = ${rows.value!![idx][pk]}" }
+            .joinToString(" AND ")
+
+        fun updateExpr(row: Row) = row
+            .map { "${it.key} = ${it.value}" }
+            .joinToString()
+        return modifiedRows.value!!
+            .map {
+                "UPDATE $tableName" +
+                        " SET ${updateExpr(it.value)}" +
+                        " WHERE ${whereClause(it.key)}"
+            }
+    }
 
     fun report() {
         Log.i(javaClass.simpleName, _modifiedRows.toString())
@@ -167,19 +194,23 @@ class TableViewModel(private val tableName: String) : ViewModel() {
 
     fun applyPatch() = viewModelScope.launch {
         isLoading.value = true
+        delay(1000)
 
-        produceInsertQuery()?.let {
-            Database.update(it).await()
+        try {
+            produceInsertQuery()?.let {
+                Database.update(it).await()
+            }
+            produceDeleteQuery()?.let {
+                Database.update(it).await()
+            }
+            produceUpdateQueries().forEach {
+                Database.update(it).await()
+            }
+            reset()
+            fetchTable()
+        } catch (e: SQLException) {
+            errorMessage.value = e.toString()
         }
-        produceDeleteQuery()?.let {
-            Database.update(it).await()
-        }
-        produceUpdateQueries().forEach {
-            Database.update(it).await()
-        }
-
-        reset()
-        fetchTable()
         isLoading.value = false
     }
 

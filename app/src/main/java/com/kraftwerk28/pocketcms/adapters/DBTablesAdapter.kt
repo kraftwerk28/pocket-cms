@@ -1,15 +1,19 @@
 package com.kraftwerk28.pocketcms.adapters
 
+import android.text.Layout
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.kraftwerk28.pocketcms.R
 import com.kraftwerk28.pocketcms.databinding.ItemTableBinding
 import com.kraftwerk28.pocketcms.viewmodels.DBTablesViewModel
+import kotlinx.android.synthetic.main.dbview_item.view.*
 
-class TableItemViewHolder(val itemBinding: ItemTableBinding) :
-    RecyclerView.ViewHolder(itemBinding.root)
+class TableItemViewHolder(itemView: View) :
+    RecyclerView.ViewHolder(itemView)
 
 class TableItemDiffCallback : DiffUtil.ItemCallback<String>() {
     override fun areContentsTheSame(oldItem: String, newItem: String): Boolean =
@@ -25,12 +29,11 @@ class DBTablesAdapter(
 ) : ListAdapter<String, TableItemViewHolder>(TableItemDiffCallback()) {
 
     override fun onBindViewHolder(holder: TableItemViewHolder, position: Int) {
-        holder.itemBinding.cardView.setOnClickListener {
-            onTableItemClick(getItem(position))
-        }
-        holder.itemBinding.run {
-            tableName = getItem(position)
-            executePendingBindings()
+        holder.itemView.run {
+            setOnClickListener {
+                onTableItemClick(getItem(position))
+            }
+            dbnameText.text = getItem(position)
         }
     }
 
@@ -38,14 +41,9 @@ class DBTablesAdapter(
         parent: ViewGroup,
         viewType: Int
     ): TableItemViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemTableBinding.inflate(
-            inflater,
-            parent,
-            false
-        )
-        return TableItemViewHolder(binding)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.dbview_item, parent, false)
+        return TableItemViewHolder(view)
     }
 
-    override fun getItemCount(): Int = viewModel.tables.value?.size ?: 0
 }

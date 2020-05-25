@@ -1,13 +1,9 @@
 package com.kraftwerk28.pocketcms
 
-import android.app.AlertDialog
 import android.content.Context
-import android.provider.ContactsContract
-import android.text.Editable
-import android.util.Log
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.evrencoskun.tableview.listener.ITableViewListener
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kraftwerk28.pocketcms.fragments.Cell
 import com.kraftwerk28.pocketcms.viewmodels.TableViewModel
 
@@ -92,8 +88,7 @@ class TableViewListener(
         val etext =
             com.google.android.material.textfield.TextInputEditText(context)
         etext.setText(oldCell.data)
-        AlertDialog
-            .Builder(context)
+        MaterialAlertDialogBuilder(context)
             .setView(etext)
             .setTitle("Edit data")
             .setPositiveButton("Ok") { dialog, which ->

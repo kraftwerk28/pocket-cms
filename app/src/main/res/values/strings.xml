@@ -4,4 +4,14 @@
     <string name="pressButtonText">Sample text</string>
 
     <string name="sharedPrefsFileKey">com.kraftwerk28.pocketcms.PREFS_FILE_KEY</string>
+
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_yes">Yes</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_create">Create</string>
+
+    <string name="dialog_create_database">Create database</string>
+    <string name="dialog_modify_row">Modify row</string>
+    <string name="dialog_delete_row">Delete row</string>
+    <string name="dialog_confirm_action">Confirm action</string>
 </resources>

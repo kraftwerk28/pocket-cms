@@ -12,18 +12,25 @@ import kotlinx.coroutines.launch
 
 class DBTablesViewModel : ViewModel() {
 
-    val _tables = MutableLiveData(listOf<String>())
-
-    val tables: LiveData<List<String>> = _tables
+    val tables = MutableLiveData(listOf<String>())
+    val isLoading = MutableLiveData(false)
 
     fun fetchTables() = viewModelScope.launch {
-        _tables.value = listOf()
+        isLoading.value = true
+        tables.value = listOf()
         delay(1000)
         val res = Database
             .query("SELECT * FROM pg_tables WHERE tablename !~* '^(sql_|pg_)'")
             .await()
-        _tables.value =
-            res.toMaps().map { (it.get("tablename") ?: "null").toString() }
-        Log.i(javaClass.simpleName, _tables.value.toString())
+        tables.value = res
+            .toMaps()
+            .map { (it.get("tablename") ?: "null").toString() }
+        isLoading.value = false
+    }
+
+    fun removeTable(tableName: String) = viewModelScope.launch {
+        val sql = "DROP TABLE $tableName"
+        Database.update(sql).await()
+        fetchTables()
     }
 }
