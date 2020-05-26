@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    val logTag = "Main activity";
+    val logTag = "Main activity"
     val NOTIFICATOIN_CHAN_ID = "notif_chan_1"
     val NOTIFICATION_CHAN_NAME = "notif_chan_name"
     val actionReciver = object : BroadcastReceiver() {
@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         @RequiresApi(21)
-        window.statusBarColor = cl;
+        window.statusBarColor = cl
         supportActionBar?.setBackgroundDrawable(ColorDrawable(cl))
     }
 

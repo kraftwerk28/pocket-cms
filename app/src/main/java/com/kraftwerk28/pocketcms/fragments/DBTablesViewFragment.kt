@@ -15,6 +15,9 @@ import com.kraftwerk28.pocketcms.Database
 import com.kraftwerk28.pocketcms.ItemSwipeHelper
 import com.kraftwerk28.pocketcms.R
 import com.kraftwerk28.pocketcms.adapters.DBTablesAdapter
+import com.kraftwerk28.pocketcms.dialogs.CreateTableDialog
+import com.kraftwerk28.pocketcms.dialogs.MessageType
+import com.kraftwerk28.pocketcms.dialogs.TextDialog
 import com.kraftwerk28.pocketcms.viewmodels.DBTablesViewModel
 import kotlinx.android.synthetic.main.dbview_item.view.*
 import kotlinx.android.synthetic.main.fragment_dbtables_view.view.*
@@ -76,18 +79,32 @@ class DBTablesViewFragment : Fragment() {
                 viewModel.fetchTables()
             }
 
-            viewModel.tables.observe(
-                viewLifecycleOwner,
-                Observer {
-                    adapter.submitList(it)
-                }
-            )
-            viewModel.isLoading.observe(viewLifecycleOwner, Observer {
-                swipeRefreshLayout.isRefreshing = it
-            })
+            viewModel.run {
+                errorText.observe(viewLifecycleOwner, Observer {
+                    it?.let {
+                        TextDialog(context, MessageType.ERROR, it).invoke()
+                        viewModel.errorText.value = null
+                    }
+                })
+                tables.observe(
+                    viewLifecycleOwner,
+                    Observer {
+                        adapter.submitList(it)
+                    }
+                )
+                isLoading.observe(viewLifecycleOwner, Observer {
+                    swipeRefreshLayout.isRefreshing = it
+                })
+            }
 
             toolbar.setNavigationOnClickListener {
                 findNavController().navigateUp()
+            }
+
+            addTableFAB.setOnClickListener {
+                CreateTableDialog(context) { tableName, columns ->
+                    viewModel.createTable(tableName, columns)
+                }.invoke()
             }
         }
 

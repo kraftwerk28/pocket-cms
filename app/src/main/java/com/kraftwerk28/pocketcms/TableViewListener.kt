@@ -3,7 +3,7 @@ package com.kraftwerk28.pocketcms
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import com.evrencoskun.tableview.listener.ITableViewListener
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.kraftwerk28.pocketcms.dialogs.ModifyCellDialog
 import com.kraftwerk28.pocketcms.fragments.Cell
 import com.kraftwerk28.pocketcms.viewmodels.TableViewModel
 
@@ -85,18 +85,7 @@ class TableViewListener(
         modifyCallback: (newCell: Cell) -> Unit,
         deleteCallback: () -> Unit
     ) {
-        val etext =
-            com.google.android.material.textfield.TextInputEditText(context)
-        etext.setText(oldCell.data)
-        MaterialAlertDialogBuilder(context)
-            .setView(etext)
-            .setTitle("Edit data")
-            .setPositiveButton("Ok") { dialog, which ->
-                modifyCallback(Cell(etext.text.toString()))
-            }
-            .setNegativeButton("Delete row") { dialog, which ->
-                deleteCallback()
-            }
-            .show()
+        ModifyCellDialog(context, oldCell, modifyCallback, deleteCallback)
+            .invoke()
     }
 }
