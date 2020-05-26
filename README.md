@@ -17,9 +17,10 @@ A PostgreSQL instance is deployed on DigitalOcean droplet and is accessible thro
 
 ## Checklist
 - [x] dislpaying databases list / creating database
-- [x] displaying/modifying database tables (`information_schema.tables`) (partially)
-- [ ] displaying/modifying table comumn types (`information_schema.columns`)
-- [ ] displaying/modifying data from table
+- [x] displaying/modifying database tables (`information_schema.tables`)
+- [x] displaying/modifying table comumn types (`information_schema.columns`)
+- [x] displaying/modifying data from table
 - [x] auth through fingerprint API
+- [x] deep linking
 - [ ] tests
-- [ ] ...
+- [ ] managing column constraints
