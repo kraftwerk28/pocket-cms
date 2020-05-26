@@ -16,24 +16,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dce5843f-06e5-489d-9b7e-50cf22371b04" name="Default Changelist" comment="Add database connect fragment&#10;Add database list fragment&#10;Reorganize project structure">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/dialogs/ModifyCellDialog.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_close_white_24dp.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_modify_cell.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_create_table.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/MainActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/TableViewListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/TableViewListener.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/adapters/ModifyRowDialogAdapter.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/adapters/TableModifyRowDialogAdapter.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/dialogs/CreateTableDialog.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/dialogs/CreateTableDialog.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/fragments/DBTablesViewFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/fragments/DBTablesViewFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/viewmodels/DBTablesViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/viewmodels/DBTablesViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/dialog_create_table.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_create_table.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_dbtables_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_dbtables_view.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_dbview.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_dbview.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/viewmodels/TableViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/viewmodels/TableViewModel.kt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -242,5 +229,26 @@
     <MESSAGE value="Add database connect fragment&#10;Add database list fragment&#10;Reorganize project structure" />
     <option name="LAST_COMMIT_MESSAGE" value="Add database connect fragment&#10;Add database list fragment&#10;Reorganize project structure" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/viewmodels/TableViewModel.kt</url>
+          <line>205</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/viewmodels/TableViewModel.kt</url>
+          <line>208</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/kraftwerk28/pocketcms/viewmodels/TableViewModel.kt</url>
+          <line>211</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

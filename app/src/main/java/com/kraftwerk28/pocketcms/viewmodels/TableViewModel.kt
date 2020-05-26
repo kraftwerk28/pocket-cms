@@ -107,8 +107,13 @@ class TableViewModel(private val tableName: String) : ViewModel() {
     }
 
     fun deleteRow(index: Int) {
-        _deletedRows.add(index)
-        deletedRows.notify(_deletedRows)
+        if (index < _newRows.size) {
+            _newRows.removeAt(index)
+            newRows.notify(_newRows)
+        } else {
+            _deletedRows.add(index - _newRows.size)
+            deletedRows.notify(_deletedRows)
+        }
     }
 
     fun produceInsertQuery(): String? {
@@ -124,7 +129,7 @@ class TableViewModel(private val tableName: String) : ViewModel() {
         if (deletedRows.value?.size == 0) return null
         fun whereTuple(pk: String): String = _deletedRows
             .map { rows.value!![it][pk] }
-            .joinToString()
+            .joinToString(prefix = "(", postfix = ")")
 
         val whereClause = primaryKeys.value!!
             .map { pk -> "$pk IN ${whereTuple(pk)}" }

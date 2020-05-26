@@ -44,8 +44,8 @@ class TableViewListener(
         row: Int
     ) {
         viewModel.run {
+            if (deletedRows.value!!.contains(row - newRows.value!!.size)) return
             getCell(row, column)?.let { oldCell ->
-                if (deletedRows.value!!.contains(row)) return
                 promptForValue(oldCell, { newCell ->
                     modifyCell(row, column, newCell)
                 }, {
