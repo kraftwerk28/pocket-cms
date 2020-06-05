@@ -22,5 +22,5 @@ A PostgreSQL instance is deployed on DigitalOcean droplet and is accessible thro
 - [x] displaying/modifying data from table
 - [x] auth through fingerprint API
 - [x] deep linking
-- [ ] tests
+- [x] tests
 - [ ] managing column constraints
