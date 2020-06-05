@@ -23,8 +23,8 @@ import kotlinx.coroutines.*
 
 class DBConnectFragment : Fragment() {
 
-    private lateinit var binding: FragmentDbconnectBinding
-    private lateinit var viewModel: ConnectCredentials
+    lateinit var binding: FragmentDbconnectBinding
+    lateinit var viewModel: ConnectCredentials
     private val TAG = "DBConnectFragment"
 
     override fun onCreate(savedInstanceState: Bundle?) {

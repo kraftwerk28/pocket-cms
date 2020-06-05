@@ -34,8 +34,10 @@ class CreateTableDiffCallback : DiffUtil.ItemCallback<TableColumn>() {
 }
 
 typealias LA = ListAdapter<TableColumn, CreateTableRVViewHolder>
+typealias ColChangeCallback = (adapter: CreateTableRVAdapter, col: TableColumn, position: Int) -> Unit
 
-class CreateTableRVAdapter : LA(CreateTableDiffCallback()) {
+class CreateTableRVAdapter(val onUpdateColumn: ColChangeCallback) :
+    LA(CreateTableDiffCallback()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -55,6 +57,22 @@ class CreateTableRVAdapter : LA(CreateTableDiffCallback()) {
         holder.itemView.run {
             typeInput.setText(data.type)
             columnNameInput.setText(data.value)
+            typeInput.addTextChangedListener {
+                val item = getItem(position)
+                onUpdateColumn(
+                    this@CreateTableRVAdapter,
+                    item.copy(type = it.toString()),
+                    position
+                )
+            }
+            columnNameInput.addTextChangedListener {
+                val item = getItem(position)
+                onUpdateColumn(
+                    this@CreateTableRVAdapter,
+                    item.copy(value = it.toString()),
+                    position
+                )
+            }
         }
     }
 }
@@ -74,7 +92,9 @@ class CreateTableDialog(
         val view = LayoutInflater.from(context)
             .inflate(R.layout.dialog_create_table, null)
 
-        adapter = CreateTableRVAdapter()
+        adapter = CreateTableRVAdapter { adapter, col, pos ->
+            columnList.set(pos, col)
+        }
         adapter.submitList(columnList.toList())
         view.columnsRecyclerView.adapter = adapter
 

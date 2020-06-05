@@ -42,7 +42,7 @@ class TableViewModel(private val tableName: String) : ViewModel() {
 
     fun newRow() {
         _newRows.add(mutableMapOf())
-        newRows.notify(_newRows)
+        newRows.value = _newRows
     }
 
     fun updateNewRow(index: Int, update: Pair<String, String>) {
